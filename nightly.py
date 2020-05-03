@@ -142,25 +142,53 @@ try:
             fbspeed = fc.str_transmission_rate
             print(fbuptime)
             print(fbspeed)
+
             draw.text(
                 (0, 0),
-               # "Fritz.Box Uptime: " %
+                "Fritz.Box informations: ",
+                font=font,
+                fill=255
+                )
+
+            draw.line((0, 12, width, 12), fill=255)
+
+            draw.text(
+                (0, 16),
+                "Fritz.Box Uptime: ",
+                font=font,
+                fill=255
+            )
+
+            draw.text(
+                (64, 16),
                 fbuptime,
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (0, 12),
-                #"Upstream: " %
+                (0,26),
+                "Upstream: ",
+                font=font,
+                fill=255
+            )
+
+            draw.text(
+                (64,26),
                 fbspeed[0],
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (0, 22),
-                #"Downstream: " %
+                (0,36),
+                "Downstream: ",
+                font=font,
+                fill=255
+            )
+
+            draw.text(
+                (64,36),
                 fbspeed[1],
                 font=font,
                 fill=255
