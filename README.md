@@ -50,7 +50,7 @@ sudo apt-get install libopenjp2-7 libtiff5
 Clone this project:
 
 ```
-git clone https://github.com/willdurand/pihole-oled.git /home/pi/pihole-oled
+git clone https://github.com/Maschine2501/pihole-oled.git /home/pi/pihole-oled
 ```
 
 Install the python dependencies:
