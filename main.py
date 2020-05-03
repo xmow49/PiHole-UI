@@ -2,11 +2,12 @@ import os
 import platform
 import time
 
-import Adafruit_SSD1306
 import humanize
 import psutil
 import requests
 
+from luma.core.interface.serial import i2c
+from luma.oled.device import ssd1309
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
@@ -23,7 +24,8 @@ RST = None
 
 
 try:
-    disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
+    serial = i2c(port=1, address=0x3C)
+    disp = ssd1306(serial)
     is_noop = False
 except FileNotFoundError:
     # The error is probably due to this script being run on a system that does
@@ -40,11 +42,11 @@ width = disp.width
 height = disp.height
 
 # Reduce contrast
-disp.command(Adafruit_SSD1306.SSD1306_SETPRECHARGE)
-disp.command(5)
-disp.set_contrast(5)
-disp.command(Adafruit_SSD1306.SSD1306_SETVCOMDETECT)
-disp.command(0)
+#disp.command(Adafruit_SSD1306.SSD1306_SETPRECHARGE)
+#disp.command(5)
+#disp.set_contrast(5)
+#disp.command(Adafruit_SSD1306.SSD1306_SETVCOMDETECT)
+#disp.command(0)
 
 disp.clear()
 disp.display()
