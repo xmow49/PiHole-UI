@@ -82,7 +82,7 @@ sudo raspi-config
 
 ```
 
-### 2nd: Install PiHole
+## 2nd: Install PiHole
 ---
 
 ```
@@ -91,11 +91,13 @@ curl -sSL https://install.pi-hole.net | bash
 -> follow the setup...
 -> note the password in the last step!
 
-### 3rd: Install the dependencies:
+## 3rd: Install the dependencies:
 ---
 
 ```
-sudo apt-get install python3-pip
+sudo apt-get install python3-pip libopenjp2-7
+
+sudo apt-get install -y python3-dev python3-setuptools python3-pip libfreetype6-dev libjpeg-dev build-essential python-rpi.gpio python3-rpi.gpio libopenjp2-7-dev libtiff5 libcurl4-openssl-dev libssl-dev git
 
 sudo pip3 install -U pip
 
@@ -107,9 +109,25 @@ sudo pip3 install psutil
 
 sudo pip3 install luma.oled
 
+```
 
+## 4th: Install pihole-oled
+---
 
 ```
+git clone https://github.com/Maschine2501/pihole-oled.git /home/pi/pihole-oled
+
+cd pihole-oled
+
+sudo cp pihole-oled.service /etc/systemd/user/
+
+sudo systemctl enable /etc/systemd/user/pihole-oled.service
+
+sudo systemctl start pihole-oled.service
+
+sudo reboot
+```
+
 
 
 ### Software requirements
@@ -144,27 +162,7 @@ sudo apt-get install libopenjp2-7 libtiff5
 
 ### Project installation
 
-Clone this project:
 
-```
-git clone https://github.com/Maschine2501/pihole-oled.git /home/pi/pihole-oled
-```
-
-Install the python dependencies:
-
-```
-cd /home/pi/pihole-oled
-pipenv install
-```
-
-If you plug the OLED display and run the command below, you should see some
-information on the display:
-
-```
-pipenv run python3 main.py
-```
-
-You can exit the script with <kbd>ctrl</kbd>+<kbd>c</kbd>.
 
 
 
@@ -191,6 +189,7 @@ sudo systemctl start pihole-oled.service
 
 ### check the journal!
 ```
-sudo journalctl -fu rc2ui.service
+sudo journalctl -fu pihole-oled.service
+
 ```
 
