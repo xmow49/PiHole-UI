@@ -139,9 +139,7 @@ try:
             
         elif elapsed_seconds >= 10:
             fbuptime = fc.str_uptime
-            fbspeed = fc.str_transmission_rate
-            print(fbuptime)
-            print(fbspeed)
+            fbspeed = fc.str_max_bit_rate
 
             draw.text(
                 (0, 0),
@@ -153,42 +151,42 @@ try:
             draw.line((0, 12, width, 12), fill=255)
 
             draw.text(
-                (0, 16),
-                "Fritz.Box Uptime: ",
+                (0, 17),
+                "Uptime: ",
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (64, 16),
+                (64, 17),
                 fbuptime,
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (0,26),
-                "Upstream: ",
+                (0,29),
+                "Upload: ",
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (64,26),
+                (64,29),
                 fbspeed[0],
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (0,36),
-                "Downstream: ",
+                (0,39),
+                "Download: ",
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (64,36),
+                (64,39),
                 fbspeed[1],
                 font=font,
                 fill=255
