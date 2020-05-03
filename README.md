@@ -1,4 +1,4 @@
-# pihole-oled (for Raspberry Pi Zero)
+# PiHole-UI(for Raspberry Pi Zero)
 ---
 This is a fork from: [pihole-oled](https://github.com/willdurand/pihole-oled)
 
@@ -121,9 +121,8 @@ sudo pip3 install luma.oled
 ---
 
 ```
-git clone https://github.com/Maschine2501/pihole-oled.git /home/pi/pihole-oled
-
-cd pihole-oled
+git clone https://github.com/Maschine2501/PiHole-UI.git /home/pi/PiHole-UI
+cd PiHole-UI
 
 sudo cp pihole-oled.service /etc/systemd/user/
 
@@ -145,9 +144,9 @@ After Step 3 continue with this:
 ```
 sudo pip3 install fritzconnection
 
-git clone https://github.com/Maschine2501/pihole-oled.git /home/pi/pihole-oled
+git clone https://github.com/Maschine2501/PiHole-UI.git /home/pi/PiHole-UI
 
-cd pihole-oled
+cd PiHole-UI
 
 sudo cp pihole-nightly.service /etc/systemd/user/
 
