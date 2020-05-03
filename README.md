@@ -132,13 +132,45 @@ sudo reboot
 ```
 
 
+## Nightly Build installation:
+---
+
+follow the installation steps above, until you finished step 3.
+
+After Step 3 continue with this:
+
+```
+sudo pip3 install fritzconnection
+
+git clone https://github.com/Maschine2501/pihole-oled.git /home/pi/pihole-oled
+
+cd pihole-oled
+
+sudo cp pihole-nightly.service /etc/systemd/user/
+
+sudo systemctl enable /etc/systemd/user/pihole-nightly.service
+
+sudo systemctl start pihole-nightly.service
+
+sudo reboot
+```
+
 
 ## If something is wrong:
 ---
 
 ### check the journal!
+
+#### stable:
 ```
 sudo journalctl -fu pihole-oled.service
 ```
+
+#### nightly:
+```
+sudo journalctl -fu pihole-nightly.service
+```
+
+
 
 
