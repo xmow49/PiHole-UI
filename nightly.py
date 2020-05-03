@@ -9,6 +9,7 @@ import psutil
 import requests
 
 #imports for Fritz.Box
+from fritzconnection import FritzConnection
 from fritzconnection.lib.fritzstatus import FritzStatus
 
 #imports for Display
@@ -25,10 +26,8 @@ interface = os.getenv('PIHOLE_OLED_INTERFACE', 'wlan0')
 # Mount point for disk usage info
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')
 # initialisation for Fritz.Box API / IP and Password may need to be changed.
+fritzconnection = FritzConnection(address='192.168.178.1', password='password')
 fc = FritzStatus(address='192.168.178.1', password='password')
-
-# There is no reset pin on the SSD1306 0.96"
-#RST = None
 
 try:
     serial = i2c(port=1, address=0x3C)
@@ -69,7 +68,7 @@ try:
         if elapsed_seconds == 15:
             elapsed_seconds = 0
 
-        if elapsed_seconds >= 5:
+        if elapsed_seconds >= 5 and elapsed_seconds <= 10:
             addr = psutil.net_if_addrs()[interface][0]
             draw.text(
                 (0, 0),
@@ -139,31 +138,34 @@ try:
             )
             
         elif elapsed_seconds >= 10:
-            fbuptime = fritzconnection.lib.fritzstatus.FritzStatus(str_uptime)
-            fbspeed = fritzconnection.lib.fritzstatus.FritzStatus(max_bit_rate)
+            fbuptime = fc.str_uptime
+            fbspeed = fc.str_transmission_rate
+            print(fbuptime)
+            print(fbspeed)
             draw.text(
                 (0, 0),
-                "Fritz.Box Uptime: %s" % humanize.fbuptime(),
+               # "Fritz.Box Uptime: " %
+                fbuptime,
                 font=font,
                 fill=255
             )
-            
-            
+
             draw.text(
                 (0, 12),
-                "Upstream: " % fbspeed[0],
+                #"Upstream: " %
+                fbspeed[0],
                 font=font,
                 fill=255
             )
 
             draw.text(
                 (0, 22),
-                "Downstream: " % fbspeed[1],
+                #"Downstream: " %
+                fbspeed[1],
                 font=font,
                 fill=255
             )
 
-            
         else:
             try:
                 req = requests.get('http://pi.hole/admin/api.php')
