@@ -5,26 +5,18 @@ Requires=network.target
 [Service]
 Type=simple
 User=pi
+Group=sudo
 
 ; Uncomment the lines below to change the config
 ;Environment=PIHOLE_OLED_INTERFACE=eth0
 ;Environment=PIHOLE_OLED_MOUNT_POINT=/
 
 WorkingDirectory=/home/pi/pihole-oled
-ExecStart=/home/pi/.local/bin/pipenv run python3 main.py
+ExecStart=/usr/bin/python3 -u /home/pi/pihole-oled/main.py
 
 ; Always restart the script
 Restart=always
 
-; cf. https://www.darkcoding.net/software/the-joy-of-systemd/
-; /usr, /boot and /etc are read-only
-ProtectSystem=full
-; $HOME is read only ..
-ProtectHome=read-only
-; /tmp is isolated from all other processes
-PrivateTmp=true
-; Don't allow process to raise privileges (e.g. disable suid)
-NoNewPrivileges=true
 
 [Install]
 WantedBy=multi-user.target
