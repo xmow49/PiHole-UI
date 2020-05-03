@@ -75,12 +75,13 @@ Use Putty/Kitty (User: pi / PW: raspberry)
 sudo apt-get update
 
 sudo dpkg-reconfigure tzdata
+```
 -> Select your Timezone
 
-sudo raspi-config
--> 5 Interfacing Options -> P5 I2C -> enable i2c
-
 ```
+sudo raspi-config
+```
+-> 5 Interfacing Options -> P5 I2C -> enable i2c
 
 ## 2nd: Install PiHole
 ---
