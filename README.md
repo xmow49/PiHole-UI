@@ -20,6 +20,9 @@ I faced installation-problems with the original code, so I forked it, and change
 The OLED display is connected _via_ I2C with 4 wires: `SDA`, `SCL`, `3.3V` and
 `GND`.
 
+![PiHole](https://github.com/Maschine2501/pihole-oled/blob/master/3D-model/20200503_133754.jpg)
+
+
 ## Information:
 ---
 
