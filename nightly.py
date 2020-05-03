@@ -8,6 +8,10 @@ import humanize
 import psutil
 import requests
 
+#imports for Fritz.Box
+from fritzconnection.lib.fritzstatus import FritzStatus
+
+#imports for Display
 from luma.core.interface.serial import i2c
 from luma.oled.device import ssd1306
 from PIL import Image
@@ -15,14 +19,16 @@ from PIL import ImageDraw
 from PIL import ImageFont
 from datetime import datetime
 
-# Config
 
-# Network interface to retrieve the IP address
+# Network interface to retrieve the IP address / use wlan0 for pizero / eth0 for pi
 interface = os.getenv('PIHOLE_OLED_INTERFACE', 'wlan0')
 # Mount point for disk usage info
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')
+# initialisation for Fritz.Box API / IP and Password may need to be changed.
+fc = FritzStatus(address='192.168.178.1', password='password')
+
 # There is no reset pin on the SSD1306 0.96"
-RST = None
+#RST = None
 
 try:
     serial = i2c(port=1, address=0x3C)
@@ -60,7 +66,7 @@ try:
     while True:
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
-        if elapsed_seconds == 10:
+        if elapsed_seconds == 15:
             elapsed_seconds = 0
 
         if elapsed_seconds >= 5:
@@ -131,6 +137,32 @@ try:
                 outline=255,
                 fill=255
             )
+            
+        elif elapsed_seconds >= 10:
+            fbuptime = fritzconnection.lib.fritzstatus.FritzStatus(str_uptime)
+            fbspeed = fritzconnection.lib.fritzstatus.FritzStatus(max_bit_rate)
+            draw.text(
+                (0, 0),
+                "Fritz.Box Uptime: %s" % humanize.fbuptime(),
+                font=font,
+                fill=255
+            )
+            
+            
+            draw.text(
+                (0, 12),
+                "Upstream: " % fbspeed[0],
+                font=font,
+                fill=255
+            )
+
+            draw.text(
+                (0, 22),
+                "Downstream: " % fbspeed[1],
+                font=font,
+                fill=255
+            )
+
             
         else:
             try:
