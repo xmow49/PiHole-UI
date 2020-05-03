@@ -83,6 +83,8 @@ sudo raspi-config
 ```
 -> 5 Interfacing Options -> P5 I2C -> enable i2c
 
+
+
 ## 2nd: Install PiHole
 ---
 
@@ -92,13 +94,13 @@ curl -sSL https://install.pi-hole.net | bash
 -> follow the setup...
 -> note the password in the last step!
 
+
+
 ## 3rd: Install the dependencies:
 ---
 
 ```
-sudo apt-get install python3-pip libopenjp2-7
-
-sudo apt-get install -y python3-dev python3-setuptools python3-pip libfreetype6-dev libjpeg-dev build-essential python-rpi.gpio python3-rpi.gpio libopenjp2-7-dev libtiff5 libcurl4-openssl-dev libssl-dev git
+sudo apt-get install -y python3-dev python3-setuptools python3-pip libfreetype6-dev libjpeg-dev build-essential python-rpi.gpio python3-rpi.gpio libopenjp2-7 libopenjp2-7-dev libtiff5 libcurl4-openssl-dev libssl-dev git 
 
 sudo pip3 install -U pip
 
@@ -109,8 +111,8 @@ sudo pip3 install humanize
 sudo pip3 install psutil
 
 sudo pip3 install luma.oled
-
 ```
+
 
 ## 4th: Install pihole-oled
 ---
@@ -129,13 +131,14 @@ sudo systemctl start pihole-oled.service
 sudo reboot
 ```
 
+
+
 ## If something is wrong:
 ---
 
 ### check the journal!
 ```
 sudo journalctl -fu pihole-oled.service
-
 ```
 
 
