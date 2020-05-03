@@ -1,19 +1,116 @@
-# pihole-oled
+# pihole-oled (for Raspberry Pi Zero)
+---
+This is a fork from: [pihole-oled]()
 
-<p align="center"><img src="./res/pihole-oled-demo.gif"></p>
+I faced installation-problems with the original code, so I forked it, and changed the code.
+
+#### What is "new" in this code?
+
+- skipped addafruit module -> use "luma.oled"
+
+#### To-Do / Plans for new Features:
+
+- Integrate [Fritzconnection](https://pypi.org/project/fritzconnection/)
+- Maybe change the UI -> Grafics? Animations?
+
 
 ## Hardware
+---
 
 The OLED display is connected _via_ I2C with 4 wires: `SDA`, `SCL`, `3.3V` and
-`GND`. There is no `reset` pin. The "HAT" is made with a 8-pin female header, a
-piece of proto-board and short wires. There is nothing fancy here.
+`GND`.
 
-## Installation
+## Information:
+---
 
-:warning: This project requires a Raspberry Pi with
-[Pi-hole](https://pi-hole.net/) installed, the [I2C bus
-enabled](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c)
-and Python 3.5.
+This project requires:
+- a Raspberry Pi Zero (or 3/4 with wifi -> "wlan0" is used in the code, not "eth0")
+- An 0.96" Oled (ssd1306) with i2c
+- Raspbian Buster Lite Image
+
+## Make an SD-Card with an "Raspbian Buster Lite" Image ready:
+---
+
+#### 1st - Download Raspbian Buster LITE Image:
+
+[Raspbian Images](https://www.raspberrypi.org/downloads/raspbian/)
+
+#### 2nd - flash it to the SD-Card:
+
+Use "Win32Diskimager"
+
+#### 3rd - Go to the "root" folder of the SD Card
+
+- Open "config.txt"
+  -> remove the "#" before "dtparam=spi=on" to activate SPI
+
+- make a new textfile called "ssh" -> no .txt at the end!
+
+- Make a new textfile called "wpa_supplicant.conf"
+  -> put this text in it, and edit it for your case:
+```  
+country=US
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="NETWORK-NAME"
+    psk="NETWORK-PASSWORD"
+}
+```
+#### 4th - remove SD Card 
+
+put SD-Card in your Pi Zero and let it boot (takes a few minutes)
+
+#### 5th - Connect to the Pi Zero with SSH
+
+Use Putty/Kitty (User: pi / PW: raspberry)
+
+
+
+## 1st: Configure your PiZero:
+---
+
+```
+sudo apt-get update
+
+sudo dpkg-reconfigure tzdata
+-> Select your Timezone
+
+sudo raspi-config
+-> 5 Interfacing Options -> P5 I2C -> enable i2c
+
+```
+
+### 2nd: Install PiHole
+---
+
+```
+curl -sSL https://install.pi-hole.net | bash
+```
+-> follow the setup...
+-> note the password in the last step!
+
+### 3rd: Install the dependencies:
+---
+
+```
+sudo apt-get install python3-pip
+
+sudo pip3 install -U pip
+
+sudo pip3 install -U setuptools
+
+sudo pip3 install humanize
+
+sudo pip3 install psutil
+
+sudo pip3 install luma.oled
+
+
+
+```
+
 
 ### Software requirements
 
@@ -69,6 +166,9 @@ pipenv run python3 main.py
 
 You can exit the script with <kbd>ctrl</kbd>+<kbd>c</kbd>.
 
+
+
+
 ### Systemd configuration
 
 You can install a `systemd` service by copying the provided configuration file
@@ -86,30 +186,11 @@ sudo systemctl enable /etc/systemd/user/pihole-oled.service
 sudo systemctl start pihole-oled.service
 ```
 
+## If something is wrong:
+---
 
-## Dev corner
-
-This sections is only relevant if you intent to work on this project.
-
-We use
-[conda](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html)
-to ship a (hopefully) reproducible environment to work on this project. Start by
-installing `conda`, then create the environment for this project:
-
+### check the journal!
 ```
-conda env create -f environment.yml
+sudo journalctl -fu rc2ui.service
 ```
 
-Do not forget to enable this environment:
-
-```
-conda activate
-```
-
-You should have `python3` (3.5) and `pipenv` available now.
-
-
-## License
-
-This project is released under the MIT License. See the bundled [LICENSE
-file](./LICENSE) for details.
