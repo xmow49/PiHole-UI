@@ -1,6 +1,6 @@
 # pihole-oled (for Raspberry Pi Zero)
 ---
-This is a fork from: [pihole-oled]()
+This is a fork from: [pihole-oled](https://github.com/willdurand/pihole-oled)
 
 I faced installation-problems with the original code, so I forked it, and changed the code.
 
