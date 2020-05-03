@@ -14,10 +14,12 @@ from fritzconnection.lib.fritzstatus import FritzStatus
 
 #imports for Display
 from luma.core.interface.serial import i2c
+from luma.core.sprite_system import framerate_regulator
 from luma.oled.device import ssd1306
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+from PIL import ImageSequence
 from datetime import datetime
 
 
@@ -65,7 +67,7 @@ try:
     while True:
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
-        if elapsed_seconds == 15:
+        if elapsed_seconds == 20:
             elapsed_seconds = 0
 
         if elapsed_seconds >= 5 and elapsed_seconds <= 10:
@@ -137,7 +139,7 @@ try:
                 fill=255
             )
             
-        elif elapsed_seconds >= 10:
+        elif elapsed_seconds >= 10 and elapsed_seconds <= 15:
             fbuptime = fc.str_uptime
             fbspeed = fc.str_max_bit_rate
 
@@ -148,50 +150,65 @@ try:
                 fill=255
                 )
 
-            draw.line((0, 12, width, 12), fill=255)
+            draw.line((0, 10, width, 10), fill=255)
 
             draw.text(
-                (0, 17),
+                (0, 14),
                 "Uptime: ",
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (64, 17),
+                (64, 14),
                 fbuptime,
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (0,29),
-                "Upload: ",
+                (0,26),
+                "Upload-Speed: ",
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (64,29),
+                (50,36),
                 fbspeed[0],
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (0,39),
-                "Download: ",
+                (0,46),
+                "Download-Speed: ",
                 font=font,
                 fill=255
             )
 
             draw.text(
-                (64,39),
+                (50,56),
                 fbspeed[1],
                 font=font,
                 fill=255
             )
 
+        elif elapsed_seconds >= 15 and elapsed_seconds <= 20:
+            regulator = framerate_regulator(fps=10)
+            img_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+            'res', 'code1.gif'))
+            code = Image.open(img_path)
+            size = [min(*device.size)] * 2
+            posn = ((device.width - size[0]) // 2, device.height - size[1])
+            
+            while True:
+                for frame in ImageSequence.Iterator(banana):
+                    with regulator:
+                        background = Image.new("RGB", device.size, "white")
+                        background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
+                        disp.display(background.convert("1"))
+            
         else:
             try:
                 req = requests.get('http://pi.hole/admin/api.php')
