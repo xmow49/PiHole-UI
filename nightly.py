@@ -60,7 +60,7 @@ if is_noop:
 else:
     image = Image.new('1', (width, height))
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype('./SF_Pixelate.ttf', 10)
+    font = ImageFont.load_default()        #truetype('./SF_Pixelate.ttf', 10)
 
 sleep = 1  # seconds
 
