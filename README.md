@@ -159,6 +159,31 @@ sudo reboot
 ```
 
 
+## Dual-Screen installation:
+---
+
+follow the installation steps above, until you finished step 3.
+
+After Step 3 continue with this:
+
+```
+sudo pip3 install fritzconnection
+
+git clone https://github.com/Maschine2501/PiHole-UI.git /home/pi/PiHole-UI
+
+cd PiHole-UI
+
+sudo cp pihole-dual.service /etc/systemd/user/
+
+sudo systemctl enable /etc/systemd/user/pihole-dual.service
+
+sudo systemctl start pihole-dual.service
+
+sudo reboot
+```
+
+
+
 ## If something is wrong:
 ---
 
@@ -174,6 +199,8 @@ sudo journalctl -fu pihole-oled.service
 sudo journalctl -fu pihole-nightly.service
 ```
 
-
-
+#### dual-screen:
+```
+sudo journalctl -fu pihole-dual.service
+```
 
