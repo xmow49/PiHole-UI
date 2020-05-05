@@ -217,7 +217,24 @@ try:
                         disp.display(background.convert("1"))
                     if time.time() >= timecheck + giftimer:
                        break
-
+            
+            regulator2 = framerate_regulator(fps=10)
+            right_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+            'res', 'Fallin-R.gif'))
+            right = Image.open(right_path)
+            size = [disp.size]
+            posn = ((disp.width - size[0]), disp.height - size[1])
+            timecheck = time.time()
+            
+            while time.time() <= timecheck + giftimer:
+                 for frame in ImageSequence.Iterator(right):
+                    with regulator2:
+                        background = Image.new("RGB", disp.size, "white")
+                        background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
+                        disp2.display(background.convert("1"))
+                    if time.time() >= timecheck + giftimer:
+                       break
+                    
         else:
             try:
                 req = requests.get('http://pi.hole/admin/api.php')
