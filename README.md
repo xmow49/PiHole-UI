@@ -46,6 +46,7 @@ Use "Win32Diskimager"
 
 - Open "config.txt"
   -> remove the "#" before "dtparam=spi=on" to activate SPI
+  -> add "dtparam=i2c_vc=on" for second display/i2c bus
 
 - make a new textfile called "ssh" -> no .txt at the end!
 
