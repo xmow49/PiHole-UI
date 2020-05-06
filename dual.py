@@ -34,6 +34,8 @@ fc = FritzStatus(address='192.168.178.1', password='password')
 try:
     serial = i2c(port=1, address=0x3C)
     disp = ssd1306(serial)
+    serial2 = i2c(port=0, address=0x3C)
+    disp2 = ssd1306(serial2)
     is_noop = False
 except FileNotFoundError:
     # The error is probably due to this script being run on a system that does
@@ -47,6 +49,8 @@ except FileNotFoundError:
 width = disp.width
 height = disp.height
 
+giftimer = 2
+
 disp.clear()
 
 if is_noop:
@@ -56,7 +60,7 @@ if is_noop:
 else:
     image = Image.new('1', (width, height))
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype('./SF_Pixelate.ttf', 10)
+    font = ImageFont.load_default()        #truetype('./SF_Pixelate.ttf', 10)
 
 sleep = 1  # seconds
 
@@ -67,7 +71,7 @@ try:
     while True:
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
-        if elapsed_seconds == 20:
+        if elapsed_seconds == 17:
             elapsed_seconds = 0
 
         if elapsed_seconds >= 5 and elapsed_seconds <= 10:
@@ -138,6 +142,7 @@ try:
                 outline=255,
                 fill=255
             )
+            disp.display(image)
             
         elif elapsed_seconds >= 10 and elapsed_seconds <= 15:
             fbuptime = fc.str_uptime
@@ -193,22 +198,43 @@ try:
                 font=font,
                 fill=255
             )
+            disp2.display(image)
 
-        elif elapsed_seconds >= 15 and elapsed_seconds <= 20:
+        elif elapsed_seconds >= 15 and elapsed_seconds <= 17:
             regulator = framerate_regulator(fps=10)
-            img_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-            'res', 'code1.gif'))
-            code = Image.open(img_path)
-            size = [min(*device.size)] * 2
-            posn = ((device.width - size[0]) // 2, device.height - size[1])
+            left_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+            'res', 'Fallin-L.gif'))
+            left = Image.open(left_path)
+            size = [min(*disp.size)] * 2
+            posn = ((disp.width - size[0]), disp.height - size[1])
+            timecheck = time.time()
             
-            while True:
-                for frame in ImageSequence.Iterator(banana):
+            while time.time() <= timecheck + giftimer:
+                 for frame in ImageSequence.Iterator(left):
                     with regulator:
-                        background = Image.new("RGB", device.size, "white")
+                        background = Image.new("RGB", disp.size, "white")
                         background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
                         disp.display(background.convert("1"))
+                    if time.time() >= timecheck + giftimer:
+                       break
             
+            regulator2 = framerate_regulator(fps=10)
+            right_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+            'res', 'Fallin-R.gif'))
+            right = Image.open(right_path)
+            size = [disp.size]
+            posn = ((disp.width - size[0]), disp.height - size[1])
+            timecheck = time.time()
+            
+            while time.time() <= timecheck + giftimer:
+                 for frame in ImageSequence.Iterator(right):
+                    with regulator2:
+                        background = Image.new("RGB", disp.size, "white")
+                        background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
+                        disp2.display(background.convert("1"))
+                    if time.time() >= timecheck + giftimer:
+                       break
+                    
         else:
             try:
                 req = requests.get('http://pi.hole/admin/api.php')
@@ -256,8 +282,9 @@ try:
                     font=font,
                     fill=255
                 )
+                disp.display(image)
 
-        disp.display(image)
+        
         time.sleep(sleep)
 
         elapsed_seconds += 1
