@@ -167,16 +167,15 @@ class LeftScreen:
         draw.text((50,56), missedcalls, font=font, fill=255)
         disp2.display(image)
         
-#gif screen
-        elif elapsed_seconds >= 15 and elapsed_seconds <= 17:
+class GifLeft:
+        def LeftGif:
+        #Gifscreen for left display: elapsed_seconds >= 15 and elapsed_seconds <= 17:
             regulator = framerate_regulator(fps=10)
-            left_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-            'res', 'Fallin-L.gif'))
+            left_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', 'Fallin-L.gif'))
             left = Image.open(left_path)
             size = [128, 64]
             posn = (0, 0)
-            timecheck = time.time()
-            
+            timecheck = time.time()            
             while time.time() <= timecheck + giftimer:
                  for frame in ImageSequence.Iterator(left):
                     with regulator:
@@ -185,26 +184,29 @@ class LeftScreen:
                         disp.display(background.convert("1"))
                     if time.time() >= timecheck + giftimer:
                        break
-            
+
+      
+class GifRight:
+        def RightGif:
+        #Gifscreen for right display: elapsed_seconds >= 15 and elapsed_seconds <= 17:
             regulator2 = framerate_regulator(fps=10)
-            right_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-            'res', 'Fallin-R.gif'))
+            regulator2 = framerate_regulator(fps=10)
+            right_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', 'Fallin-R.gif'))
             right = Image.open(right_path)
             size = [128, 64]
             posn = (0, 0)
-            timecheck = time.time()
-            
+            timecheck = time.time()            
             while time.time() <= timecheck + giftimer:
                  for frame in ImageSequence.Iterator(right):
-                    with regulator2:
+                    with regulator:
                         background = Image.new("RGB", disp.size, "white")
                         background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
                         disp2.display(background.convert("1"))
                     if time.time() >= timecheck + giftimer:
                        break
 
-        time.sleep(sleep)
+        #time.sleep(sleep)
 
-        elapsed_seconds += 1
+        #elapsed_seconds += 1
 except (KeyboardInterrupt, SystemExit):
     print("Exiting...")
