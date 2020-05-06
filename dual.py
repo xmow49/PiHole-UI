@@ -15,7 +15,6 @@ from fritzconnection.lib.fritzhosts import FritzHosts
 from fritzconnection.lib.fritzwlan import FritzWLAN
 from fritzconnection.lib.fritzcall import FritzCall
 
-
 #imports for Display
 from luma.core.interface.serial import i2c
 from luma.core.sprite_system import framerate_regulator
@@ -46,34 +45,6 @@ inforefreshtag = 1
 pindexleft = 0
 pindexright = 0
 
-#addr = []
-#uptime = ''
-#cpu = ''
-#mem = ''
-#disk = ''
-#fbuptime = ''
-#fbspeed = ''
-#req = ''
-#data = ''  
-
-#def addr():
-#    addr = psutil.net_if_addrs()[interface][0]
-#def uptime():
-#    uptime = datetime.now() - datetime.fromtimestamp(psutil.boot_time())
-#def cpu():    
-#    cpu = int(psutil.cpu_percent(percpu=False))   
-#def mem():    
-#    mem = int(psutil.virtual_memory().percent)  
-#def disk():    
-#    disk = int(psutil.disk_usage(mount_point).percent) 
-#def fbuptime():    
-#    fbuptime = fc.str_uptime  
-#def fbspeed():    
-#    fbspeed = fc.str_max_bit_rate  
-#def req():    
-#    req = requests.get('http://pi.hole/admin/api.php')
-#     data = req.json()
-
 disp.clear()
 disp2.clear()
 
@@ -93,6 +64,24 @@ def cb(id, currtime):
         return True
     else:
         return False
+    
+def function1(arg1, arg2, arg3, duration, cb, threadid):
+    t_end = time.time() + duration
+    while time.time() < t_end:
+        #do some stuff
+        if cb(threadid, time.time()):
+            break
+
+for i in range(100):
+    t = Thread(target = function1, args=(arg1, arg2, arg3, 10, cb, i))
+    threadlist[id] = {"starttime": time.time(), "thread": t}
+    t.start()
+
+And to check:
+
+time.sleep(15)
+for item in threadlist.values():
+    print(item.thread.is_alive())
 
 #class LeftScreen:
 def LS1:           
@@ -130,7 +119,7 @@ def LS2:
         draw.text((0, 0), "ERROR!", font=font, fill=255)
         disp.display(image)
 
-#class LeftScreen:
+#class RightScreen:
 def RS1:                   
     #1st Fritzbox screen (uptime, up-/download) elapsed_seconds >= 10 and elapsed_seconds <= 15:
     fbuptime = fc.str_uptime
