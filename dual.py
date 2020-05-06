@@ -103,8 +103,8 @@ try:
             left_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
             'res', 'Fallin-L.gif'))
             left = Image.open(left_path)
-            size = [min(*disp.size)] * 2
-            posn = ((disp.width - size[0]), disp.height - size[1])
+            size = [128, 64]
+            posn = (0, 0)
             timecheck = time.time()
             
             while time.time() <= timecheck + giftimer:
@@ -120,8 +120,8 @@ try:
             right_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
             'res', 'Fallin-R.gif'))
             right = Image.open(right_path)
-            size = [disp.size]
-            posn = ((disp.width - size[0]), disp.height - size[1])
+            size = [128, 64]
+            posn = (0, 0)
             timecheck = time.time()
             
             while time.time() <= timecheck + giftimer:
