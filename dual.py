@@ -11,6 +11,10 @@ import requests
 #imports for Fritz.Box
 from fritzconnection import FritzConnection
 from fritzconnection.lib.fritzstatus import FritzStatus
+from fritzconnection.lib.fritzhosts import FritzHosts
+from fritzconnection.lib.fritzwlan import FritzWLAN
+from fritzconnection.lib.fritzcall import FritzCall
+
 
 #imports for Display
 from luma.core.interface.serial import i2c
@@ -26,6 +30,9 @@ interface = os.getenv('PIHOLE_OLED_INTERFACE', 'wlan0')                         
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')                           #Mount point for disk usage info
 fritzconnection = FritzConnection(address='192.168.178.1', password='password')   #initialisation for Fritz.Box API / IP and Password may need to be changed.
 fc = FritzStatus(address='192.168.178.1', password='password')
+fh = FritzHosts(address='192.168.178.1', password='password')
+fw = FritzWLAN(address='192.168.178.1', password='password')
+fc = FritzCall(address='192.168.178.1', password='password')
 
 serial = i2c(port=1, address=0x3C)
 disp = ssd1306(serial)
@@ -127,17 +134,16 @@ class LeftScreen:
             draw.text((0, 32), "Queries: %d" % data["dns_queries_today"], font=font, fill=255)
             draw.line((0, 50, width, 50), fill=255)
             draw.text((0, 54), "Blocklist: %d" % data["domains_being_blocked"], font=font, fill=255)                
-        except:  ## noqa
+        except:
             draw.text((0, 0), "ERROR!", font=font, fill=255)
             disp.display(image)
 
 class LeftScreen:
     def RS1:                   
-    #1st Fritzbox screen (uptime, up-/download)            
-        elapsed_seconds >= 10 and elapsed_seconds <= 15:
+    #1st Fritzbox screen (uptime, up-/download) elapsed_seconds >= 10 and elapsed_seconds <= 15:
         fbuptime = fc.str_uptime
         fbspeed = fc.str_max_bit_rate
-        draw.text((0, 0), "Fritz.Box informations: ", font=font, fill=255)
+        draw.text((0, 0), "Fritz.Box infos: ", font=font, fill=255)
         draw.line((0, 10, width, 10), fill=255)
         draw.text((0, 14), "Uptime: ", font=font, fill=255)
         draw.text((64, 14), fbuptime, font=font, fill=255)
@@ -147,7 +153,19 @@ class LeftScreen:
         draw.text((50,56), fbspeed[1], font=font, fill=255)
         disp2.display(image)
     def RS2:
-    #2nd Fritzbox screen (    
+    #2nd Fritzbox screen
+        hosts = fh.host_numbers
+        ssid = fw.ssid
+        missedcalls = fc.get_missed_calls(update=true, num=10, days=7)
+        draw.text((0, 0), "Fritz.Box infos: ", font=font, fill=255)
+        draw.line((0, 10, width, 10), fill=255)
+        draw.text((0, 14), "SSID: ", font=font, fill=255)
+        draw.text((64, 14), ssid, font=font, fill=255)
+        draw.text((0,26), "Hosts: ", font=font, fill=255)
+        draw.text((50,36), hosts, font=font, fill=255)
+        draw.text((0,46), "missed calls: ", font=font, fill=255)
+        draw.text((50,56), missedcalls, font=font, fill=255)
+        disp2.display(image)
         
 #gif screen
         elif elapsed_seconds >= 15 and elapsed_seconds <= 17:
