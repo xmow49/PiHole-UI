@@ -85,6 +85,15 @@ sleep = 4  # seconds
 
 hostname = platform.node()
 
+threadlist  = {}
+def cb(id, currtime):
+    t = threadlist[id]
+    d = currtime - t.starttime
+    if d > 10:
+        return True
+    else:
+        return False
+
 #class LeftScreen:
 def LS1:           
     #1st Screen CPU/RAM/Uptime..if elapsed_seconds >= 5 and elapsed_seconds <= 10: 
@@ -190,7 +199,10 @@ def RightGif:
 time.sleep(sleep)
 
 if disptimer ==0 and disptimer <= 5:
-    screen1 = threading.Timer(5,  
+    screen1 = threading.Timer(5, LS1)
+    screen2 = threading.Timer(5, RS1)
+    screen1.start()
+    screen2.start()
 
 elapsed_seconds += 1
 
