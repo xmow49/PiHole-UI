@@ -22,13 +22,9 @@ from PIL import ImageFont
 from PIL import ImageSequence
 from datetime import datetime
 
-
-# Network interface to retrieve the IP address / use wlan0 for pizero / eth0 for pi
-interface = os.getenv('PIHOLE_OLED_INTERFACE', 'wlan0')
-# Mount point for disk usage info
-mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')
-# initialisation for Fritz.Box API / IP and Password may need to be changed.
-fritzconnection = FritzConnection(address='192.168.178.1', password='password')
+interface = os.getenv('PIHOLE_OLED_INTERFACE', 'wlan0')                           #Network interface to retrieve the IP address / use wlan0 for pizero / eth0 for pi
+mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')                           #Mount point for disk usage info
+fritzconnection = FritzConnection(address='192.168.178.1', password='password')   #initialisation for Fritz.Box API / IP and Password may need to be changed.
 fc = FritzStatus(address='192.168.178.1', password='password')
 
 try:
@@ -37,20 +33,15 @@ try:
     serial2 = i2c(port=0, address=0x3C)
     disp2 = ssd1306(serial2)
     is_noop = False
-except FileNotFoundError:
-    # The error is probably due to this script being run on a system that does
-    # not have an OLED connected. In this case, we create fake objects to
-    # render the result in the console.
+    
+except FileNotFoundError:                     #The error is probably due to this script being run on a system that does not have an OLED connected. In this case, we create fake objects to render the result in the console.
     from image_noop import NoopDisplay, NoopImage, InMemoryImageDraw
-
     disp = NoopDisplay()
     is_noop = True
 
 width = disp.width
 height = disp.height
-
 giftimer = 2
-
 disp.clear()
 
 if is_noop:
@@ -73,8 +64,8 @@ try:
 
         if elapsed_seconds == 17:
             elapsed_seconds = 0
-
-        if elapsed_seconds >= 5 and elapsed_seconds <= 10:
+#2nd Screen CPU/RAM/Uptime..
+        if elapsed_seconds >= 5 and elapsed_seconds <= 10: 
             addr = psutil.net_if_addrs()[interface][0]
             draw.text((0, 0), "Pi-hole %s" % addr.address.rjust(15), font=font, fill=255)
             uptime = datetime.now() - datetime.fromtimestamp(psutil.boot_time())
@@ -93,7 +84,7 @@ try:
             draw.rectangle((26, 54, 126, 54 + 6), outline=255, fill=0)            
             draw.rectangle((26, 54, 26 + disk, 54 + 6), outline=255, fill=255 )
             disp.display(image)
-            
+#Fritzbox screen            
         elif elapsed_seconds >= 10 and elapsed_seconds <= 15:
             fbuptime = fc.str_uptime
             fbspeed = fc.str_max_bit_rate
@@ -106,7 +97,7 @@ try:
             draw.text((0,46), "Download-Speed: ", font=font, fill=255)
             draw.text((50,56), fbspeed[1], font=font, fill=255)
             disp2.display(image)
-
+#gif screen
         elif elapsed_seconds >= 15 and elapsed_seconds <= 17:
             regulator = framerate_regulator(fps=10)
             left_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -141,9 +132,9 @@ try:
                         disp2.display(background.convert("1"))
                     if time.time() >= timecheck + giftimer:
                        break
-                    
+#1st screen:                    
         else:
-            try:
+            try:                                                
                 req = requests.get('http://pi.hole/admin/api.php')
                 data = req.json()
                 draw.text((0, 0), "Pi-hole (%s)" % data["status"], font=font, fill=255)
