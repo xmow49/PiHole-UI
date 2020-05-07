@@ -7,6 +7,7 @@ import humanize
 import psutil
 import requests
 from threading import Thread
+from multiprocessing import Process
 
 #imports for Fritz.Box
 from fritzconnection import FritzConnection
@@ -40,7 +41,7 @@ disp2 = ssd1306(serial2)
 
 width = disp.width
 height = disp.height
-disptimer = 0
+dispcounter = 1
 inforefreshtag = 1
 pindexleft = 0
 pindexright = 0
@@ -55,33 +56,6 @@ font = ImageFont.load_default()        #truetype('./SF_Pixelate.ttf', 10)
 sleep = 4  # seconds
 
 hostname = platform.node()
-
-threadlist  = {}
-def cb(id, currtime):
-    t = threadlist[id]
-    d = currtime - t.starttime
-    if d > 10:
-        return True
-    else:
-        return False
-    
-def function1(arg1, arg2, arg3, duration, cb, threadid):
-    t_end = time.time() + duration
-    while time.time() < t_end:
-        #do some stuff
-        if cb(threadid, time.time()):
-            break
-
-for i in range(100):
-    t = Thread(target = function1, args=(arg1, arg2, arg3, 10, cb, i))
-    threadlist[id] = {"starttime": time.time(), "thread": t}
-    t.start()
-
-And to check:
-
-time.sleep(15)
-for item in threadlist.values():
-    print(item.thread.is_alive())
 
 #class LeftScreen:
 def LS1:           
@@ -185,13 +159,35 @@ def RightGif:
              if time.time() >= timecheck + giftimer:
                break
 
-time.sleep(sleep)
-
-if disptimer ==0 and disptimer <= 5:
-    screen1 = threading.Timer(5, LS1)
-    screen2 = threading.Timer(5, RS1)
-    screen1.start()
-    screen2.start()
+if dispcounter == 1:
+    p1 = Process(target=LS1)
+    p2 = Process(target=RS1)
+    p1.start()
+    p2.start()
+    sleep(5.0)
+    p1.kill()
+    p2.kill()
+    dipcounter = 2
+    
+if dispcounter == 2:
+    p3 = Process(target=LS2)
+    p4 = Process(target=RS2)
+    p3.start()
+    p4.start()
+    sleep(5.0)
+    p3.kill()
+    p4.kill()
+    dipcounter = 3
+    
+if dispcounter == 3:
+    p5 = Process(target=LeftGif)
+    p6 = Process(target=RightGif)
+    p5.start()
+    p6.start()
+    sleep(5.0)
+    p5.kill()
+    p6.kill()
+    dipcounter = 1
 
 elapsed_seconds += 1
 
