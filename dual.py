@@ -42,9 +42,6 @@ disp2 = ssd1306(serial2)
 width = disp.width
 height = disp.height
 dispcounter = 1
-inforefreshtag = 1
-pindexleft = 0
-pindexright = 0
 
 disp.clear()
 disp2.clear()
@@ -58,7 +55,7 @@ sleep = 4  # seconds
 hostname = platform.node()
 
 #class LeftScreen:
-def LS1:           
+def LS1(font, interface, mount_point, draw, disp, psutil, datetime, humanize, os):           
     #1st Screen CPU/RAM/Uptime..if elapsed_seconds >= 5 and elapsed_seconds <= 10: 
    addr = psutil.net_if_addrs()[interface][0]
    draw.text((0, 0), "Pi-hole %s" % addr.address.rjust(15), font=font, fill=255)
@@ -78,7 +75,7 @@ def LS1:
    draw.rectangle((26, 54, 126, 54 + 6), outline=255, fill=0)            
    draw.rectangle((26, 54, 26 + disk, 54 + 6), outline=255, fill=255 )
    disp.display(image)
-def LS2:
+def LS2(width, font, requests, draw, disp):
     #2nd Screen PiHole Infos...
     try:                                                
         req = requests.get('http://pi.hole/admin/api.php')
@@ -94,7 +91,7 @@ def LS2:
         disp.display(image)
 
 #class RightScreen:
-def RS1:                   
+def RS1(width, font, fc, draw, disp2):                   
     #1st Fritzbox screen (uptime, up-/download) elapsed_seconds >= 10 and elapsed_seconds <= 15:
     fbuptime = fc.str_uptime
     fbspeed = fc.str_max_bit_rate
@@ -107,7 +104,8 @@ def RS1:
     draw.text((0,46), "Download-Speed: ", font=font, fill=255)
     draw.text((50,56), fbspeed[1], font=font, fill=255)
     disp2.display(image)
-def RS2:
+    
+def RS2(width, font, fh, fw, fc, draw, disp2):
     #2nd Fritzbox screen
     hosts = fh.host_numbers
     ssid = fw.ssid
@@ -123,47 +121,43 @@ def RS2:
     disp2.display(image)
         
 #class GifLeft:
-def LeftGif:
+def LeftGif(framerate_regulator, os, time, disp2)::
         #Gifscreen for left display: elapsed_seconds >= 15 and elapsed_seconds <= 17:
     regulator = framerate_regulator(fps=10)
     left_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', 'Fallin-L.gif'))
     left = Image.open(left_path)
     size = [128, 64]
-    posn = (0, 0)
-    timecheck = time.time()            
-    while time.time() <= timecheck + giftimer:
+    posn = (0, 0)        
+    while True:
          for frame in ImageSequence.Iterator(left):
              with regulator:
                   background = Image.new("RGB", disp.size, "white")
                   background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
                   disp.display(background.convert("1"))
-             if time.time() >= timecheck + giftimer:
-                  break
       
 #class GifRight:
-def RightGif:
+def RightGif(framerate_regulator, os, image, disp2):
         #Gifscreen for right display: elapsed_seconds >= 15 and elapsed_seconds <= 17:
-    regulator2 = framerate_regulator(fps=10)
     regulator2 = framerate_regulator(fps=10)
     right_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', 'Fallin-R.gif'))
     right = Image.open(right_path)
     size = [128, 64]
     posn = (0, 0)
-    timecheck = time.time()            
-    while time.time() <= timecheck + giftimer:
+#    timecheck = time.time()            
+    while True:
          for frame in ImageSequence.Iterator(right):
              with regulator:
                  background = Image.new("RGB", disp.size, "white")
                  background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
                  disp2.display(background.convert("1"))
-             if time.time() >= timecheck + giftimer:
-               break
+#             if time.time() >= timecheck + giftimer:
+#               break
 
 if dispcounter == 1:
     p1 = Process(target=LS1)
     p2 = Process(target=RS1)
-    p1.start()
-    p2.start()
+    p1.start(width, height, font, interface, mount_point, draw, disp, psutil, datetime, humanize, os)
+    p2.start(width, height, font, fc, draw, disp2)
     sleep(5.0)
     p1.kill()
     p2.kill()
