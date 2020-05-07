@@ -39,12 +39,13 @@ disp = ssd1306(serial)
 serial2 = i2c(port=0, address=0x3C)
 disp2 = ssd1306(serial2)
 
+width = disp.width
+height = disp.height
+
 image = Image.new('1', (width, height))
 draw = ImageDraw.Draw(image)
 font = ImageFont.load_default()        #truetype('./SF_Pixelate.ttf', 10)
 
-width = disp.width
-height = disp.height
 dispcounter = 1
 hostname = platform.node()
 
