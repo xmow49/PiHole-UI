@@ -44,8 +44,8 @@ height = disp.height
 
 image = Image.new('1', (width, height))
 draw = ImageDraw.Draw(image)
-fontbold = truetype('./sf-pixelate.bold.ttf.ttf', 12)
-font = truetype('./sf-pixelate.regular.ttf', 10)
+fontbold = ImageFont.truetype('./sf-pixelate.bold.ttf.ttf', 12)
+font = ImageFont.truetype('./sf-pixelate.regular.ttf', 10)
 
 dispcounter = 3
 hostname = platform.node()
