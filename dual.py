@@ -44,9 +44,10 @@ height = disp.height
 
 image = Image.new('1', (width, height))
 draw = ImageDraw.Draw(image)
-font = ImageFont.load_default()        #truetype('./SF_Pixelate.ttf', 10)
+fontbold = truetype('./sf-pixelate.bold.ttf.ttf', 12)
+font = truetype('./sf-pixelate.regular.ttf', 10)
 
-dispcounter = 1
+dispcounter = 3
 hostname = platform.node()
 
 disp.clear()
@@ -113,34 +114,13 @@ def RS2():
     draw.text((50,56), missedcalls, font=font, fill=255)
     disp2.display(image)
 
-def LeftGif():
-    #Gifscreen for left display
-    regulator = framerate_regulator(fps=10)
-    left_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', 'Fallin-L.gif'))
-    left = Image.open(left_path)
-    size = [128, 64]
-    posn = (0, 0)
-    while True:
-         for frame in ImageSequence.Iterator(left):
-             with regulator:
-                  background = Image.new("RGB", disp.size, "white")
-                  background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
-                  disp.display(background.convert("1"))
+def LeftLogo():
+   leftlogo = Image.open("Pi-.bmp")
+   disp.display(leftlogo)
 
-def RightGif():
-        #Gifscreen for right display
-    regulator2 = framerate_regulator(fps=10)
-    right_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', 'Fallin-R.gif'))
-    right = Image.open(right_path)
-    size = [128, 64]
-    posn = (0, 0)
-
-    while True:
-         for frame in ImageSequence.Iterator(right):
-             with regulator2:
-                 background = Image.new("RGB", disp.size, "white")
-                 background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
-                 disp2.display(background.convert("1"))
+def RightLogo():
+   rightlogo = Image.open("Hole.bmp")
+   disp2.display(rightlogo)
                     
 while True:
      if dispcounter == 1:
@@ -164,13 +144,11 @@ while True:
             dispcounter += 1
 
      if dispcounter == 3:
-           p5 = Process(target = LeftGif)
-           p6 = Process(target = RightGif)
+           p5 = Process(target = LeftLogo)
+           p6 = Process(target = RightLogo)
            p5.start()
            p6.start()
            time.sleep(5.0)
            p5.kill()
            p6.kill()
            dispcounter -= 2
-
-
