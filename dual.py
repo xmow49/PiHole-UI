@@ -42,6 +42,19 @@ disp2 = ssd1306(serial2)
 width = disp.width
 height = disp.height
 
+font1 = load_font('Oxanium-Bold.ttf', 12)
+font2 = load_font('Oxanium-Light.ttf', 10)
+font3 = load_font('Oxanium-Regular.ttf', 10)
+font4 = load_font('Oxanium-Medium.ttf', 10)
+font = load_font('DSEG7Classic-Regular.ttf', 10)
+fontbold = load_font('DSG.ttf', 12)   
+
+dispcounter = 3
+hostname = platform.node()
+
+disp.clear()
+disp2.clear()
+
 def load_font(filename, font_size):
     font_path = '/home/pi/PiHole-UI/fonts/'
     try:
@@ -52,8 +65,6 @@ def load_font(filename, font_size):
     return font
 image = Image.new('1', (width, height))
 draw = ImageDraw.Draw(image)
-fontbold = load_font('bold.ttf', 12)
-font = load_font('regular.ttf', 10)
 
 def show_logoleft(filename, device):
     logoImage = Image.new('1', (device.width, device.height))
@@ -74,12 +85,6 @@ def show_logoright(filename, device):
         print("Cannot open file %s" % filename)
         pass
     disp2.display(logoImage)
-
-dispcounter = 3
-hostname = platform.node()
-
-disp.clear()
-disp2.clear()
 
 def LS1():
    #1st Screen CPU/RAM/Uptime..
@@ -118,7 +123,7 @@ def RS1():
     #1st Fritzbox screen (uptime, up-/download)
     fbuptime = fs.str_uptime
     fbspeed = fs.str_max_bit_rate
-    draw.text((0, 0), "Fritz.Box infos: ", font=font, fill=255)
+    draw.text((0, 0), "Fritz.Box infos: ", font=fontbold, fill=255)
     draw.line((0, 10, width, 10), fill=255)
     draw.text((0, 14), "Uptime: ", font=font, fill=255)
     draw.text((64, 14), fbuptime, font=font, fill=255)
@@ -133,14 +138,14 @@ def RS2():
     #hosts = fh.host_numbers()
     ssid = fw.ssid
     missedcalls = fc.get_missed_calls(update=True, num=10, days=7)
-    draw.text((0, 0), "Fritz.Box infos: ", font=font, fill=255)
+    draw.text((0, 0), "Fritz.Box infos: ", font=font1, fill=255)
     draw.line((0, 10, width, 10), fill=255)
-    draw.text((0, 14), "SSID: ", font=font, fill=255)
-    draw.text((64, 14), ssid, font=font, fill=255)
-    draw.text((0,26), "Hosts: ", font=font, fill=255)
-    draw.text((50,36), "hosts", font=font, fill=255)
+    draw.text((0, 14), "SSID: ", font=font3, fill=255)
+    draw.text((64, 14), ssid, font=font2, fill=255)
+    draw.text((0,26), "Hosts: ", font=font3, fill=255)
+    draw.text((50,36), "hosts", font=font4, fill=255)
     draw.text((0,46), "missed calls: ", font=font, fill=255)
-    draw.text((50,56), missedcalls, font=font, fill=255)
+    draw.text((50,56), "missedcalls", font=font, fill=255)
     disp2.display(image)
 
 def LeftLogo():
