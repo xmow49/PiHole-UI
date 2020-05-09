@@ -144,10 +144,10 @@ def RS2():
     disp2.display(image)
 
 def LeftLogo():
-   show_logoleft("Pi-.bmp", oled)
+   show_logoleft("Pi-.bmp", disp)
 
 def RightLogo():
-   show_logoright("Hole.bmp", oled)
+   show_logoright("Hole.bmp", disp2)
                     
 while True:
      if dispcounter == 1:
