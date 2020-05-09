@@ -53,8 +53,8 @@ def load_font(filename, font_size):
 
 image = Image.new('1', (width, height))
 draw = ImageDraw.Draw(image)
-fontbold = ImageFont.truetype('./sf-pixelate.bold.ttf.ttf', 12)
-font = ImageFont.truetype('./sf-pixelate.regular.ttf', 10)
+fontbold = load_font('./sf-pixelate.bold.ttf.ttf', 12)
+font = load_font('./sf-pixelate.regular.ttf', 10)
 
 def show_logoleft(filename, device):
     logoImage = Image.new('1', (disp.width, disp.height))
