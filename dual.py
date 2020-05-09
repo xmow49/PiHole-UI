@@ -42,10 +42,39 @@ disp2 = ssd1306(serial2)
 width = disp.width
 height = disp.height
 
+def load_font(filename, font_size):
+    font_path = os.path.dirname(os.path.realpath(__file__)) + '/../fonts/'
+    try:
+        font = ImageFont.truetype(font_path + filename, font_size)
+    except IOError:
+        print('font file not found -> using default font')
+        font = ImageFont.load_default()
+    return font
+
 image = Image.new('1', (width, height))
 draw = ImageDraw.Draw(image)
 fontbold = ImageFont.truetype('./sf-pixelate.bold.ttf.ttf', 12)
 font = ImageFont.truetype('./sf-pixelate.regular.ttf', 10)
+
+def show_logoleft(filename, device):
+    logoImage = Image.new('1', (disp.width, disp.height))
+    img_path = os.path.dirname(os.path.realpath(__file__)) + '/../res/'
+    try:
+        logoImage = Image.open(img_path + filename) #.resize((device.width, device.height), Image.ANTIALIAS)
+    except IOError:
+        print("Cannot open file %s" % filename)
+        pass
+    disp.display(logoImage)
+
+def show_logoright(filename, device):
+    logoImage = Image.new('1', (disp2.width, disp2.height))
+    img_path = os.path.dirname(os.path.realpath(__file__)) + '/../res/'
+    try:
+        logoImage = Image.open(img_path + filename) #.resize((device.width, device.height), Image.ANTIALIAS)
+    except IOError:
+        print("Cannot open file %s" % filename)
+        pass
+    disp2.display(logoImage)
 
 dispcounter = 3
 hostname = platform.node()
@@ -115,12 +144,10 @@ def RS2():
     disp2.display(image)
 
 def LeftLogo():
-   leftlogo = Image.open("Pi-.bmp")
-   disp.display(leftlogo)
+   show_logoleft("Pi-.bmp", oled)
 
 def RightLogo():
-   rightlogo = Image.open("Hole.bmp")
-   disp2.display(rightlogo)
+   show_logoright("Hole.bmp", oled)
                     
 while True:
      if dispcounter == 1:
