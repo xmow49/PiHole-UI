@@ -43,34 +43,33 @@ width = disp.width
 height = disp.height
 
 def load_font(filename, font_size):
-    font_path = os.path.dirname(os.path.realpath(__file__)) + '/../fonts/'
+    font_path = '/home/pi/PiHole-UI/fonts/'
     try:
         font = ImageFont.truetype(font_path + filename, font_size)
     except IOError:
         print('font file not found -> using default font')
         font = ImageFont.load_default()
     return font
-
 image = Image.new('1', (width, height))
 draw = ImageDraw.Draw(image)
-fontbold = load_font('./sf-pixelate.bold.ttf.ttf', 12)
-font = load_font('./sf-pixelate.regular.ttf', 10)
+fontbold = load_font('bold.ttf', 12)
+font = load_font('regular.ttf', 10)
 
 def show_logoleft(filename, device):
-    logoImage = Image.new('1', (disp.width, disp.height))
-    img_path = os.path.dirname(os.path.realpath(__file__)) + '/../res/'
+    logoImage = Image.new('1', (device.width, device.height))
+    img_path = '/home/pi/PiHole-UI/res/'
     try:
-        logoImage = Image.open(img_path + filename) #.resize((device.width, device.height), Image.ANTIALIAS)
+        logoImage = Image.open(img_path + filename).convert('1') #.resize((device.width, device.height), Image.ANTIA$
     except IOError:
         print("Cannot open file %s" % filename)
         pass
     disp.display(logoImage)
 
 def show_logoright(filename, device):
-    logoImage = Image.new('1', (disp2.width, disp2.height))
-    img_path = os.path.dirname(os.path.realpath(__file__)) + '/../res/'
+    logoImage = Image.new('1', (device.width, device.height))
+    img_path = '/home/pi/PiHole-UI/res/'
     try:
-        logoImage = Image.open(img_path + filename) #.resize((device.width, device.height), Image.ANTIALIAS)
+        logoImage = Image.open(img_path + filename).convert('1') #.resize((device.width, device.height), Image.ANTIA$
     except IOError:
         print("Cannot open file %s" % filename)
         pass
@@ -102,13 +101,14 @@ def LS1():
    draw.rectangle((26, 54, 126, 54 + 6), outline=255, fill=0)
    draw.rectangle((26, 54, 26 + disk, 54 + 6), outline=255, fill=255 )
    disp.display(image)
+
 def LS2():
    #2nd Screen PiHole Infos...
    req = requests.get('http://pi.hole/admin/api.php')
    data = req.json()
    draw.text((0, 0), "Pi-hole (%s)" % data["status"], font=font, fill=255)
    draw.line((0, 12, width, 12), fill=255)
-   draw.text((0, 22), "Blocked: %d (%d%%)" % (data["ads_blocked_today"], data["ads_percentage_today"]), font=font, fill=255)
+   draw.text((0, 22), "Blocked: %d (%d%%)" % (data["ads_blocked_today"], data["ads_percentage_today"]), font=font, f$
    draw.text((0, 32), "Queries: %d" % data["dns_queries_today"], font=font, fill=255)
    draw.line((0, 50, width, 50), fill=255)
    draw.text((0, 54), "Blocklist: %d" % data["domains_being_blocked"], font=font, fill=255)
@@ -148,7 +148,7 @@ def LeftLogo():
 
 def RightLogo():
    show_logoright("Hole.bmp", disp2)
-                    
+
 while True:
      if dispcounter == 1:
             p1 = Process(target = LS1)
