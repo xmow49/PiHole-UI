@@ -25,7 +25,7 @@ from PIL import ImageFont
 from PIL import ImageSequence
 from datetime import datetime
 
-interface = os.getenv('PIHOLE_OLED_INTERFACE', 'wlan0')    #Network interface to retrieve the IP address / u$
+interface = os.getenv('PIHOLE_OLED_INTERFACE', 'wlan0')    #Network interface to retrieve the IP address
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')    #Mount point for disk usage info
 
 #initialisation for Fritz.Box API / IP and Password needs to be customized:
@@ -70,7 +70,7 @@ def show_logoleft(filename, device):
     logoImage = Image.new('1', (device.width, device.height))
     img_path = '/home/pi/PiHole-UI/res/'
     try:
-        logoImage = Image.open(img_path + filename).convert('1') #.resize((device.width, device.height), Image.ANTIA$
+        logoImage = Image.open(img_path + filename).convert('1')
     except IOError:
         print("Cannot open file %s" % filename)
         pass
@@ -80,7 +80,7 @@ def show_logoright(filename, device):
     logoImage = Image.new('1', (device.width, device.height))
     img_path = '/home/pi/PiHole-UI/res/'
     try:
-        logoImage = Image.open(img_path + filename).convert('1') #.resize((device.width, device.height), Image.ANTIA$
+        logoImage = Image.open(img_path + filename).convert('1')
     except IOError:
         print("Cannot open file %s" % filename)
         pass
@@ -113,7 +113,7 @@ def LS2():
    data = req.json()
    draw.text((0, 0), "Pi-hole (%s)" % data["status"], font=font, fill=255)
    draw.line((0, 12, width, 12), fill=255)
-   draw.text((0, 22), "Blocked: %d (%d%%)" % (data["ads_blocked_today"], data["ads_percentage_today"]), font=font, f$
+   draw.text((0, 22), "Blocked: %d (%d%%)" % (data["ads_blocked_today"], data["ads_percentage_today"]), font=font, fill=255)
    draw.text((0, 32), "Queries: %d" % data["dns_queries_today"], font=font, fill=255)
    draw.line((0, 50, width, 50), fill=255)
    draw.text((0, 54), "Blocklist: %d" % data["domains_being_blocked"], font=font, fill=255)
