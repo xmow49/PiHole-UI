@@ -42,19 +42,6 @@ disp2 = ssd1306(serial2)
 width = disp.width
 height = disp.height
 
-font1 = load_font('Oxanium-Bold.ttf', 12)
-font2 = load_font('Oxanium-Light.ttf', 10)
-font3 = load_font('Oxanium-Regular.ttf', 10)
-font4 = load_font('Oxanium-Medium.ttf', 10)
-font = load_font('DSEG7Classic-Regular.ttf', 10)
-fontbold = load_font('DSG.ttf', 12)   
-
-dispcounter = 3
-hostname = platform.node()
-
-disp.clear()
-disp2.clear()
-
 def load_font(filename, font_size):
     font_path = '/home/pi/PiHole-UI/fonts/'
     try:
@@ -85,6 +72,19 @@ def show_logoright(filename, device):
         print("Cannot open file %s" % filename)
         pass
     disp2.display(logoImage)
+
+font1 = load_font('Oxanium-Bold.ttf', 12)
+font2 = load_font('Oxanium-Light.ttf', 10)
+font3 = load_font('Oxanium-Regular.ttf', 10)
+font4 = load_font('Oxanium-Medium.ttf', 10)
+font = load_font('DSEG7Classic-Regular.ttf', 10)
+fontbold = load_font('DSG.ttf', 12)   
+
+dispcounter = 3
+hostname = platform.node()
+
+disp.clear()
+disp2.clear()
 
 def LS1():
    #1st Screen CPU/RAM/Uptime..
