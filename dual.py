@@ -42,6 +42,16 @@ disp2 = ssd1306(serial2)
 width = disp.width
 height = disp.height
 
+UPTag = ''
+
+def ChecIfUp:
+    SystemIP = '192.168.178.27'
+    response = os.system("ping -c 1 " + SystemIP)
+    if response == 0:
+        UPTag = 1
+    else:
+        Uptag = 0
+
 def load_font(filename, font_size):
     font_path = '/home/pi/PiHole-UI/fonts/'
     try:
@@ -83,6 +93,7 @@ fontbold = load_font('DSG.ttf', 12)
 dispcounter = 1
 FirstStart = 1
 hostname = platform.node()
+
 
 disp.clear()
 disp2.clear()
@@ -158,7 +169,7 @@ def RightLogo():
 
 def LeftGif():
     #Gifscreen for left display
-    regulator = framerate_regulator(fps=18)
+    regulator = framerate_regulator(fps=10)
     left_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', '01L.gif'))
     left = Image.open(left_path)
     size = [128, 64]
@@ -172,7 +183,7 @@ def LeftGif():
 
 def RightGif():
         #Gifscreen for right display
-    regulator2 = framerate_regulator(fps=18)
+    regulator2 = framerate_regulator(fps=10)
     right_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', '01R.gif'))
     right = Image.open(right_path)
     size = [128, 64]
@@ -186,18 +197,28 @@ def RightGif():
                  disp2.display(background.convert("1"))
 
 while True:
-     if dispcounter == 1 and FirstStart == 1:
-           p5 = Process(target = LeftLogo)
-           p6 = Process(target = RightLogo)
-           p5.start()
-           p6.start()
-           time.sleep(5.0)
-           p5.kill()
-           p6.kill()
-           dispcounter += 1
-           FirstStart -= 1
-            
-     if dispcounter == 2:
+     if UPTag != 0:
+            p7 = Process(target = CheckIfUp)
+            p7.start()
+            time.sleep(2.0)
+            p7.kill()
+            time.sleep(10.0)
+     
+     if dispcounter == 1 and UPTag == 0:
+            if FirstStart == 1:
+                p5 = Process(target = LeftLogo)
+                p6 = Process(target = RightLogo)
+                p5.start()
+                p6.start()
+                time.sleep(5.0)
+                p5.kill()
+                p6.kill()
+                dispcounter += 1
+                FirstStart -= 1
+            else:
+                dispcounter = 2
+                               
+     if dispcounter == 2 and UPTag == 0:
             p1 = Process(target = LS1)
             p2 = Process(target = RS1)
             p1.start()
@@ -207,17 +228,17 @@ while True:
             p2.kill()
             dispcounter += 1
           
-     if dispcounter == 3:
+     if dispcounter == 3 and UPTag == 0:
            p5 = Process(target = LeftGif)
            p6 = Process(target = RightGif)
            p5.start()
            p6.start()
-           time.sleep(12.0)
+           time.sleep(12.4)
            p5.kill()
            p6.kill()
            dispcounter += 1
 
-     if dispcounter == 4:
+     if dispcounter == 4 and UPTag == 0:
             p3 = Process(target = LS2)
             p4 = Process(target = RS2)
             p3.start()
