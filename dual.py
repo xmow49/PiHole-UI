@@ -91,11 +91,11 @@ def show_logoright(filename, device):
         pass
     disp2.display(logoImage)
 
-font1 = load_font('Oxanium-Bold.ttf', 12)
-font2 = load_font('Oxanium-Light.ttf', 10)
-font3 = load_font('Oxanium-Regular.ttf', 10)
-font4 = load_font('Oxanium-Medium.ttf', 10)
-font = load_font('DSEG7Classic-Regular.ttf', 10)
+font1 = load_font('PixelOperator.ttf', 12)
+font2 = load_font('PixelOperator.ttf', 10)
+font3 = load_font('PixelOperator.ttf', 10)
+font4 = load_font('PixelOperator.ttf', 10)
+font = load_font('PixelOperator.ttf', 10)
 clockbold = load_font('DSG.ttf', 30)
 datebold = load_font('DSG.ttf', 30)
 
