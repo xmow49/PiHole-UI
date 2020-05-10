@@ -80,7 +80,7 @@ font4 = load_font('Oxanium-Medium.ttf', 10)
 font = load_font('DSEG7Classic-Regular.ttf', 10)
 fontbold = load_font('DSG.ttf', 12)   
 
-dispcounter = 3
+dispcounter = 1
 hostname = platform.node()
 
 disp.clear()
@@ -205,7 +205,7 @@ while True:
             p2.kill()
             dispcounter += 1
           
-     if dispcounter == 4:
+     if dispcounter == 3:
            p5 = Process(target = LeftGif)
            p6 = Process(target = RightGif)
            p5.start()
