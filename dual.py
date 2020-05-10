@@ -88,15 +88,27 @@ font2 = load_font('Oxanium-Light.ttf', 10)
 font3 = load_font('Oxanium-Regular.ttf', 10)
 font4 = load_font('Oxanium-Medium.ttf', 10)
 font = load_font('DSEG7Classic-Regular.ttf', 10)
-fontbold = load_font('DSG.ttf', 12)   
+clockbold = load_font('DSG.ttf', 20)   
+datebold = load_font('DSG.ttf', 20)   
 
 dispcounter = 1
 FirstStart = 1
 hostname = platform.node()
 
-
 disp.clear()
 disp2.clear()
+
+def ClockDisplayL:
+    draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
+    draw.text((0 ,  3), time.strftime("%I:%M"), font=clockfont, fill=1)
+	disp.display()
+	time.sleep(-time.time() % 60)
+    
+def ClockDisplayR:
+    draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
+	draw.text((15 , 48), time.strftime("%d-%m-%Y"), font=datefont, fill=1)
+	disp2.display()
+	time.sleep(-time.time() % 60)
 
 def LS1():
    #1st Screen CPU/RAM/Uptime..
@@ -246,4 +258,14 @@ while True:
             time.sleep(5.0)
             p3.kill()
             p4.kill()
-            dispcounter -= 2
+            dispcounter += 1
+            
+     if dispcounter == 5 and UPTag == 0:
+            p8 = Process(target = ClockDisplayL)
+            p9 = Process(target = ClockDisplayR)
+            p8.start()
+            p9.start()
+            time.sleep(5.0)
+            p8.kill()
+            p9.kill()
+            dispcounter -= 3
