@@ -102,7 +102,7 @@ datebold = load_font('DSG.ttf', 30)
 dispcounter = 1
 FirstStart = 1
 hostname = platform.node()
-loopcount = ''
+loopcount = 0
 
 disp.clear()
 disp2.clear()
