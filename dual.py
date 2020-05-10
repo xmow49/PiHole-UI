@@ -112,13 +112,13 @@ disp2.clear()
 def ClockDisplayL():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
     draw.text((0 ,  3), time.strftime("%I:%M"), font=clockbold, fill=1)
-    disp.display()
+    disp.display(image)
     time.sleep(-time.time() % 60)
 
 def ClockDisplayR():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
     draw.text((15 , 48), time.strftime("%d-%m-%Y"), font=datebold, fill=1)
-    disp2.display()
+    disp2.display(image)
     time.sleep(-time.time() % 60)
 
 def LS1():
