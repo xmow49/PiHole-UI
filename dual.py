@@ -103,6 +103,11 @@ loopcount = ''
 disp.clear()
 disp2.clear()
 
+def ClockDisplayL():
+    draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
+    draw.text((0 ,  3), time.strftime("%I:%M"), font=clockbold, fill=1)
+    disp.display()
+    time.sleep(-time.time() % 60)
 
 def ClockDisplayR():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
