@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 
-import os
+import os, sys
 import platform
 import humanize
 import psutil
 import requests
 import time
+import threading, queue
 from threading import Thread
 from multiprocessing import Process
 
@@ -28,6 +29,8 @@ from datetime import datetime
 interface = os.getenv('PIHOLE_OLED_INTERFACE', 'eth0')    #Network interface to retrieve the IP address
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')    #Mount point for disk usage info
 
+Q = queue.Queue()
+
 #initialisation for Fritz.Box API / IP and Password needs to be customized:
 fs = FritzStatus(address='192.168.178.1', password='password')
 fh = FritzHosts(address='192.168.178.1', password='password')
@@ -43,18 +46,21 @@ width = disp.width
 height = disp.height
 
 UPTag = ''
-#IPTag = ''
 
 def CheckIfUp():
     SystemIP = '192.168.178.27'
     response = os.system("ping -c 1 " + SystemIP)
+    print('System-Ping: ', response)
     if response == 0:
         UPTag = 1
-#        IPTag = 1
-        return UPTag
+        f = open("UPTag.txt", "w")
+        f.write(str(UPTag))
+        f.close()
     else:
         UPTag = 0
-#        IPTag = None
+        f = open("UPTag.txt", "w")
+        f.write(str(UPTag))
+        f.close()
 
 def load_font(filename, font_size):
     font_path = '/home/pi/PiHole-UI/fonts/'
@@ -212,25 +218,23 @@ def RightGif():
                  background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
                  disp2.display(background.convert("1"))
 
-print('UPTag vor der Schleife:', UPTag)         
-print('loopcount vor der Schleife:', loopcount)     
-             
 while True:
-     if UPTag != 1 or loopcount == 100:
+     if UPTag != '1' or loopcount == 100:
             p7 = Process(target = CheckIfUp)
             p7.start()
-            print('1 Schleife nach start:', UPTag)   
             time.sleep(2.0)
-            print('1 Schleife nach sleep:', UPTag)   
+            f = open("UPTag.txt", "r")
+            UPTag = f.read()
+            os.remove("UPTag.txt") 
             p7.kill()
-            print('1 Schleife nach kill:', UPTag)   
-            time.sleep(10.0)
+            if UPTag != "1":
+              time.sleep(30.0)
             if loopcount == 100:
               loopcount -= 99
 
-     if dispcounter == 1 and UPTag == 1:
+     if dispcounter == 1 and UPTag == '1':
             if FirstStart == 1:
-                print('2 Schleife nach start:', dispcounter, UPTag)   
+                print('2 Schleife nach start:', dispcounter, UPTag)
                 p5 = Process(target = LeftLogo)
                 p6 = Process(target = RightLogo)
                 p5.start()
@@ -243,8 +247,8 @@ while True:
             else:
                 dispcounter = 2
 
-     if dispcounter == 2 and UPTag == 1:
-            print('3 Schleife nach start:', dispcounter, UPTag)   
+     if dispcounter == 2 and UPTag == '1':
+            print('3 Schleife nach start:', dispcounter, UPTag)
             p1 = Process(target = LS1)
             p2 = Process(target = RS1)
             p1.start()
@@ -254,8 +258,8 @@ while True:
             p2.kill()
             dispcounter += 1
 
-     if dispcounter == 3 and UPTag == 1:
-           print('4 Schleife nach start:', dispcounter, UPTag)   
+     if dispcounter == 3 and UPTag == '1':
+           print('4 Schleife nach start:', dispcounter, UPTag)
            p5 = Process(target = LeftGif)
            p6 = Process(target = RightGif)
            p5.start()
@@ -265,8 +269,8 @@ while True:
            p6.kill()
            dispcounter += 1
 
-     if dispcounter == 4 and UPTag == 1:
-            print('5 Schleife nach start:', dispcounter, UPTag)   
+     if dispcounter == 4 and UPTag == '1':
+            print('5 Schleife nach start:', dispcounter, UPTag)
             p3 = Process(target = LS2)
             p4 = Process(target = RS2)
             p3.start()
@@ -276,8 +280,8 @@ while True:
             p4.kill()
             dispcounter += 1
 
-     if dispcounter == 5 and UPTag == 1:
-            print('6 Schleife nach start:', dispcounter, UPTag)   
+     if dispcounter == 5 and UPTag == '1':
+            print('6 Schleife nach start:', dispcounter, UPTag)
             p8 = Process(target = ClockDisplayL)
             p9 = Process(target = ClockDisplayR)
             p8.start()
@@ -286,4 +290,4 @@ while True:
             p8.kill()
             p9.kill()
             dispcounter -= 3
-            loopcount +=1
+            loopcount += 1
