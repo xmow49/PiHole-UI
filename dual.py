@@ -190,7 +190,7 @@ def RightLogo():
 def LeftGif():
     #Gifscreen for left display
     regulator = framerate_regulator(fps=10)
-    left_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', '01L.gif'))
+    left_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', '04L.gif'))
     left = Image.open(left_path)
     size = [128, 64]
     posn = (0, 0)
@@ -204,7 +204,7 @@ def LeftGif():
 def RightGif():
         #Gifscreen for right display
     regulator2 = framerate_regulator(fps=10)
-    right_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', '01R.gif'))
+    right_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', '04R.gif'))
     right = Image.open(right_path)
     size = [128, 64]
     posn = (0, 0)
@@ -262,7 +262,7 @@ while True:
            p6 = Process(target = RightGif)
            p5.start()
            p6.start()
-           time.sleep(12.4)
+           time.sleep(14.4)
            p5.kill()
            p6.kill()
            dispcounter += 1
