@@ -147,7 +147,7 @@ def RS1():
     #1st Fritzbox screen (uptime, up-/download)
     fbuptime = fs.str_uptime
     fbspeed = fs.str_max_bit_rate
-    draw.text((0, 0), "Fritz.Box infos: ", font=fontbold, fill=255)
+    draw.text((0, 0), "Fritz.Box infos: ", font=datebold, fill=255)
     draw.line((0, 10, width, 10), fill=255)
     draw.text((0, 14), "Uptime: ", font=font, fill=255)
     draw.text((64, 14), fbuptime, font=font, fill=255)
