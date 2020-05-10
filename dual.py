@@ -106,7 +106,7 @@ disp2.clear()
 
 def ClockDisplayR():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
-    draw.text((15 , 48), time.strftime("%d-%m-%Y"), font=datefont, fill=1)
+    draw.text((15 , 48), time.strftime("%d-%m-%Y"), font=datebold, fill=1)
     disp2.display()
     time.sleep(-time.time() % 60)
 
@@ -208,7 +208,7 @@ def RightGif():
                  disp2.display(background.convert("1"))
 
 while True:
-     if UPTag == 0 or loopcount == 100:
+     if UPTag != 1 or loopcount == 100:
             p7 = Process(target = CheckIfUp)
             p7.start()
             time.sleep(2.0)
