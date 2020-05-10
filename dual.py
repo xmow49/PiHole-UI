@@ -136,8 +136,8 @@ def RS1():
 def RS2():
     #2nd Fritzbox screen
     #hosts = fh.host_numbers()
-    ssid = fw.ssid
-    missedcalls = fc.get_missed_calls(update=True, num=10, days=7)
+    #ssid = fw.ssid
+    #missedcalls = fc.get_missed_calls(update=True, num=10, days=7)
     draw.text((0, 0), "Fritz.Box infos: ", font=font1, fill=255)
     draw.line((0, 10, width, 10), fill=255)
     draw.text((0, 14), "SSID: ", font=font3, fill=255)
