@@ -6,8 +6,8 @@ import humanize
 import psutil
 import requests
 import time
-import threading, queue
-from threading import Thread
+#import threading
+#from threading import Thread
 from multiprocessing import Process
 
 #imports for Fritz.Box
@@ -28,8 +28,6 @@ from datetime import datetime
 
 interface = os.getenv('PIHOLE_OLED_INTERFACE', 'eth0')    #Network interface to retrieve the IP address
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')    #Mount point for disk usage info
-
-Q = queue.Queue()
 
 #initialisation for Fritz.Box API / IP and Password needs to be customized:
 fs = FritzStatus(address='192.168.178.1', password='password')
@@ -98,8 +96,8 @@ font2 = load_font('Oxanium-Light.ttf', 10)
 font3 = load_font('Oxanium-Regular.ttf', 10)
 font4 = load_font('Oxanium-Medium.ttf', 10)
 font = load_font('DSEG7Classic-Regular.ttf', 10)
-clockbold = load_font('DSG.ttf', 20)
-datebold = load_font('DSG.ttf', 20)
+clockbold = load_font('DSG.ttf', 30)
+datebold = load_font('DSG.ttf', 30)
 
 dispcounter = 1
 FirstStart = 1
@@ -111,13 +109,13 @@ disp2.clear()
 
 def ClockDisplayL():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
-    draw.text((0 ,  3), time.strftime("%I:%M"), font=clockbold, fill=1)
+    draw.text((4, 22), time.strftime("%H:%M:%S"), font=clockbold, fill=1)
     disp.display(image)
     time.sleep(-time.time() % 60)
 
 def ClockDisplayR():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
-    draw.text((15 , 48), time.strftime("%d-%m-%Y"), font=datebold, fill=1)
+    draw.text((4, 22), time.strftime("%d-%m-%Y"), font=datebold, fill=1)
     disp2.display(image)
     time.sleep(-time.time() % 60)
 
