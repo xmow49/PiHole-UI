@@ -49,8 +49,12 @@ def CheckIfUp():
     response = os.system("ping -c 1 " + SystemIP)
     if response == 0:
         UPTag = 1
+        IPTag = 1
+        return IPTag
     else:
-        Uptag = 0
+        UPTag = 0
+        IPTag = None
+        return IPTag
 
 def load_font(filename, font_size):
     font_path = '/home/pi/PiHole-UI/fonts/'
@@ -94,6 +98,7 @@ datebold = load_font('DSG.ttf', 20)
 dispcounter = 1
 FirstStart = 1
 hostname = platform.node()
+loopcount = ''
 
 disp.clear()
 disp2.clear()
@@ -209,7 +214,8 @@ def RightGif():
                  disp2.display(background.convert("1"))
 
 while True:
-     if UPTag != 0:
+     global IPTag
+     if UPTag != 0 and IPTag == None and loopcount >= 100:
             p7 = Process(target = CheckIfUp)
             p7.start()
             time.sleep(2.0)
@@ -269,3 +275,4 @@ while True:
             p8.kill()
             p9.kill()
             dispcounter -= 3
+            loopcount +=1
