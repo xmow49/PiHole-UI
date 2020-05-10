@@ -43,18 +43,18 @@ width = disp.width
 height = disp.height
 
 UPTag = ''
+#IPTag = ''
 
 def CheckIfUp():
     SystemIP = '192.168.178.27'
     response = os.system("ping -c 1 " + SystemIP)
     if response == 0:
         UPTag = 1
-        IPTag = 1
-        return IPTag
+#        IPTag = 1
+        return UPTag
     else:
         UPTag = 0
-        IPTag = None
-        return IPTag
+#        IPTag = None
 
 def load_font(filename, font_size):
     font_path = '/home/pi/PiHole-UI/fonts/'
@@ -92,8 +92,8 @@ font2 = load_font('Oxanium-Light.ttf', 10)
 font3 = load_font('Oxanium-Regular.ttf', 10)
 font4 = load_font('Oxanium-Medium.ttf', 10)
 font = load_font('DSEG7Classic-Regular.ttf', 10)
-clockbold = load_font('DSG.ttf', 20)   
-datebold = load_font('DSG.ttf', 20)   
+clockbold = load_font('DSG.ttf', 20)
+datebold = load_font('DSG.ttf', 20)
 
 dispcounter = 1
 FirstStart = 1
@@ -103,12 +103,7 @@ loopcount = ''
 disp.clear()
 disp2.clear()
 
-def ClockDisplayL():
-    draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
-    draw.text((0 ,  3), time.strftime("%I:%M"), font=clockfont, fill=1)
-    disp.display()
-    time.sleep(-time.time() % 60)
-    
+
 def ClockDisplayR():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
     draw.text((15 , 48), time.strftime("%d-%m-%Y"), font=datefont, fill=1)
@@ -183,7 +178,6 @@ def LeftLogo():
 def RightLogo():
    show_logoright("Hole.bmp", disp2)
 
-
 def LeftGif():
     #Gifscreen for left display
     regulator = framerate_regulator(fps=10)
@@ -214,15 +208,16 @@ def RightGif():
                  disp2.display(background.convert("1"))
 
 while True:
-     global IPTag
-     if UPTag != 0 and IPTag == None and loopcount >= 100:
+     if UPTag == 0 or loopcount == 100:
             p7 = Process(target = CheckIfUp)
             p7.start()
             time.sleep(2.0)
             p7.kill()
             time.sleep(10.0)
-     
-     if dispcounter == 1 and UPTag == 0:
+            if loopcount == 100:
+              loopcount -= 99
+
+     if dispcounter == 1 and UPTag == 1:
             if FirstStart == 1:
                 p5 = Process(target = LeftLogo)
                 p6 = Process(target = RightLogo)
@@ -235,8 +230,8 @@ while True:
                 FirstStart -= 1
             else:
                 dispcounter = 2
-                               
-     if dispcounter == 2 and UPTag == 0:
+
+     if dispcounter == 2 and UPTag == 1:
             p1 = Process(target = LS1)
             p2 = Process(target = RS1)
             p1.start()
@@ -245,8 +240,8 @@ while True:
             p1.kill()
             p2.kill()
             dispcounter += 1
-          
-     if dispcounter == 3 and UPTag == 0:
+
+     if dispcounter == 3 and UPTag == 1:
            p5 = Process(target = LeftGif)
            p6 = Process(target = RightGif)
            p5.start()
@@ -256,7 +251,7 @@ while True:
            p6.kill()
            dispcounter += 1
 
-     if dispcounter == 4 and UPTag == 0:
+     if dispcounter == 4 and UPTag == 1:
             p3 = Process(target = LS2)
             p4 = Process(target = RS2)
             p3.start()
@@ -265,8 +260,8 @@ while True:
             p3.kill()
             p4.kill()
             dispcounter += 1
-            
-     if dispcounter == 5 and UPTag == 0:
+
+     if dispcounter == 5 and UPTag == 1:
             p8 = Process(target = ClockDisplayL)
             p9 = Process(target = ClockDisplayR)
             p8.start()
