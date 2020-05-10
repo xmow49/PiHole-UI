@@ -44,7 +44,7 @@ height = disp.height
 
 UPTag = ''
 
-def ChecIfUp:
+def CheckIfUp():
     SystemIP = '192.168.178.27'
     response = os.system("ping -c 1 " + SystemIP)
     if response == 0:
@@ -98,17 +98,17 @@ hostname = platform.node()
 disp.clear()
 disp2.clear()
 
-def ClockDisplayL:
+def ClockDisplayL():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
     draw.text((0 ,  3), time.strftime("%I:%M"), font=clockfont, fill=1)
-	disp.display()
-	time.sleep(-time.time() % 60)
+    disp.display()
+    time.sleep(-time.time() % 60)
     
-def ClockDisplayR:
+def ClockDisplayR():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
-	draw.text((15 , 48), time.strftime("%d-%m-%Y"), font=datefont, fill=1)
-	disp2.display()
-	time.sleep(-time.time() % 60)
+    draw.text((15 , 48), time.strftime("%d-%m-%Y"), font=datefont, fill=1)
+    disp2.display()
+    time.sleep(-time.time() % 60)
 
 def LS1():
    #1st Screen CPU/RAM/Uptime..
