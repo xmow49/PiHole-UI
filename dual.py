@@ -212,18 +212,25 @@ def RightGif():
                  background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
                  disp2.display(background.convert("1"))
 
+print('UPTag vor der Schleife:', UPTag)         
+print('loopcount vor der Schleife:', loopcount)     
+             
 while True:
      if UPTag != 1 or loopcount == 100:
             p7 = Process(target = CheckIfUp)
             p7.start()
+            print('1 Schleife nach start:', UPTag)   
             time.sleep(2.0)
+            print('1 Schleife nach sleep:', UPTag)   
             p7.kill()
+            print('1 Schleife nach kill:', UPTag)   
             time.sleep(10.0)
             if loopcount == 100:
               loopcount -= 99
 
      if dispcounter == 1 and UPTag == 1:
             if FirstStart == 1:
+                print('2 Schleife nach start:', dispcounter, UPTag)   
                 p5 = Process(target = LeftLogo)
                 p6 = Process(target = RightLogo)
                 p5.start()
@@ -237,6 +244,7 @@ while True:
                 dispcounter = 2
 
      if dispcounter == 2 and UPTag == 1:
+            print('3 Schleife nach start:', dispcounter, UPTag)   
             p1 = Process(target = LS1)
             p2 = Process(target = RS1)
             p1.start()
@@ -247,6 +255,7 @@ while True:
             dispcounter += 1
 
      if dispcounter == 3 and UPTag == 1:
+           print('4 Schleife nach start:', dispcounter, UPTag)   
            p5 = Process(target = LeftGif)
            p6 = Process(target = RightGif)
            p5.start()
@@ -257,6 +266,7 @@ while True:
            dispcounter += 1
 
      if dispcounter == 4 and UPTag == 1:
+            print('5 Schleife nach start:', dispcounter, UPTag)   
             p3 = Process(target = LS2)
             p4 = Process(target = RS2)
             p3.start()
@@ -267,6 +277,7 @@ while True:
             dispcounter += 1
 
      if dispcounter == 5 and UPTag == 1:
+            print('6 Schleife nach start:', dispcounter, UPTag)   
             p8 = Process(target = ClockDisplayL)
             p9 = Process(target = ClockDisplayR)
             p8.start()
