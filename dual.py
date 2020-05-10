@@ -195,7 +195,7 @@ while True:
            p6.kill()
            dispcounter += 1
             
-    if dispcounter == 2:
+     if dispcounter == 2:
             p1 = Process(target = LS1)
             p2 = Process(target = RS1)
             p1.start()
@@ -205,7 +205,7 @@ while True:
             p2.kill()
             dispcounter += 1
           
-    if dispcounter == 4:
+     if dispcounter == 4:
            p5 = Process(target = LeftGif)
            p6 = Process(target = RightGif)
            p5.start()
