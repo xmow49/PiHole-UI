@@ -25,7 +25,7 @@ from PIL import ImageFont
 from PIL import ImageSequence
 from datetime import datetime
 
-interface = os.getenv('PIHOLE_OLED_INTERFACE', 'wlan0')    #Network interface to retrieve the IP address
+interface = os.getenv('PIHOLE_OLED_INTERFACE', 'eth0')    #Network interface to retrieve the IP address
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')    #Mount point for disk usage info
 
 #initialisation for Fritz.Box API / IP and Password needs to be customized:
@@ -141,7 +141,7 @@ def RS2():
     draw.text((0, 0), "Fritz.Box infos: ", font=font1, fill=255)
     draw.line((0, 10, width, 10), fill=255)
     draw.text((0, 14), "SSID: ", font=font3, fill=255)
-    draw.text((64, 14), ssid, font=font2, fill=255)
+    draw.text((64, 14), "ssid", font=font2, fill=255)
     draw.text((0,26), "Hosts: ", font=font3, fill=255)
     draw.text((50,36), "hosts", font=font4, fill=255)
     draw.text((0,46), "missed calls: ", font=font, fill=255)
@@ -154,8 +154,48 @@ def LeftLogo():
 def RightLogo():
    show_logoright("Hole.bmp", disp2)
 
+
+def LeftGif():
+    #Gifscreen for left display
+    regulator = framerate_regulator(fps=18)
+    left_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', '01L.gif'))
+    left = Image.open(left_path)
+    size = [128, 64]
+    posn = (0, 0)
+    while True:
+         for frame in ImageSequence.Iterator(left):
+             with regulator:
+                  background = Image.new("RGB", disp.size, "white")
+                  background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
+                  disp.display(background.convert("1"))
+
+def RightGif():
+        #Gifscreen for right display
+    regulator2 = framerate_regulator(fps=18)
+    right_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', '01R.gif'))
+    right = Image.open(right_path)
+    size = [128, 64]
+    posn = (0, 0)
+
+    while True:
+         for frame in ImageSequence.Iterator(right):
+             with regulator2:
+                 background = Image.new("RGB", disp.size, "white")
+                 background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
+                 disp2.display(background.convert("1"))
+
 while True:
      if dispcounter == 1:
+           p5 = Process(target = LeftLogo)
+           p6 = Process(target = RightLogo)
+           p5.start()
+           p6.start()
+           time.sleep(5.0)
+           p5.kill()
+           p6.kill()
+           dispcounter += 1
+            
+    if dispcounter == 2:
             p1 = Process(target = LS1)
             p2 = Process(target = RS1)
             p1.start()
@@ -164,8 +204,18 @@ while True:
             p1.kill()
             p2.kill()
             dispcounter += 1
+          
+    if dispcounter == 4:
+           p5 = Process(target = LeftGif)
+           p6 = Process(target = RightGif)
+           p5.start()
+           p6.start()
+           time.sleep(12.0)
+           p5.kill()
+           p6.kill()
+           dispcounter += 1
 
-     if dispcounter == 2:
+     if dispcounter == 4:
             p3 = Process(target = LS2)
             p4 = Process(target = RS2)
             p3.start()
@@ -173,14 +223,4 @@ while True:
             time.sleep(5.0)
             p3.kill()
             p4.kill()
-            dispcounter += 1
-
-     if dispcounter == 3:
-           p5 = Process(target = LeftLogo)
-           p6 = Process(target = RightLogo)
-           p5.start()
-           p6.start()
-           time.sleep(5.0)
-           p5.kill()
-           p6.kill()
-           dispcounter -= 2
+            dispcounter -= 3
