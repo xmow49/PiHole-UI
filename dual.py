@@ -81,6 +81,7 @@ font = load_font('DSEG7Classic-Regular.ttf', 10)
 fontbold = load_font('DSG.ttf', 12)   
 
 dispcounter = 1
+FirstStart = 1
 hostname = platform.node()
 
 disp.clear()
@@ -185,7 +186,7 @@ def RightGif():
                  disp2.display(background.convert("1"))
 
 while True:
-     if dispcounter == 1:
+     if dispcounter == 1 and FirstStart == 1:
            p5 = Process(target = LeftLogo)
            p6 = Process(target = RightLogo)
            p5.start()
@@ -194,6 +195,7 @@ while True:
            p5.kill()
            p6.kill()
            dispcounter += 1
+           FirstStart -= 1
             
      if dispcounter == 2:
             p1 = Process(target = LS1)
@@ -223,4 +225,4 @@ while True:
             time.sleep(5.0)
             p3.kill()
             p4.kill()
-            dispcounter -= 3
+            dispcounter -= 2
