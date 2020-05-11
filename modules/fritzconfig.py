@@ -13,5 +13,5 @@ def FritzHosts:
 def FritzWLAN:
   fw = FritzWLAN(address='192.168.178.1', password=FritzPW)
   
-def Fritzcall:
+def FritzCall:
   fc = FritzCall(address='192.168.178.1', password=FritzPW)
