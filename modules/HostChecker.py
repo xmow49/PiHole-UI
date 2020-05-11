@@ -11,11 +11,11 @@ def CheckIfUp():
     print('System-Ping: ', response)
     if response == 0:
         UPTag = 1
-        f = open("UPTag.txt", "w")
+        f = open("/home/pi/PiHole-UI/modules/UPTag.txt", "w")
         f.write(str(UPTag))
         f.close()
     else:
         UPTag = 0
-        f = open("UPTag.txt", "w")
+        f = open("/home/pi/PiHole-UI/modules/UPTag.txt", "w")
         f.write(str(UPTag))
         f.close()
