@@ -21,7 +21,7 @@ while True:
             time.sleep(15.0)
             f = open('/home/pi/PiHole-UI/modules/UPTag.txt', 'r')
             UPTag = f.read()
-            os.remove('/home/pi/PiHole-UI/modules/UPTag.txt')
+#            os.remove('/home/pi/PiHole-UI/modules/UPTag.txt')
             p7.terminate()
             while UPTag != "1":
               p5 = Process(target = LeftGif)
@@ -63,7 +63,7 @@ while True:
             p2 = Process(target = RS1)
             p1.start()
             p2.start()
-            time.sleep(5.0)
+            time.sleep(8.0)
             p1.kill()
             p2.kill()
             dispcounter += 1
@@ -74,11 +74,11 @@ while True:
             p4 = Process(target = RS2)
             p3.start()
             p4.start()
-            time.sleep(5.0)
+            time.sleep(8.0)
             p3.kill()
             p4.kill()
             dispcounter += 1
-
+               
      if dispcounter == 4 and UPTag == '1':
             print('6 Schleife nach start:', dispcounter, UPTag)
             p8 = Process(target = ClockDisplayL)
