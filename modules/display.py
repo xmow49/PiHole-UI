@@ -8,6 +8,8 @@ import requests
 import time
 
 #imports for Display
+from luma.core.interface.serial import i2c
+from luma.oled.device import ssd1306
 from luma.core.sprite_system import framerate_regulator
 from PIL import Image
 from PIL import ImageDraw
@@ -32,6 +34,10 @@ fc = FritzCall(address='192.168.178.1', password=FritzPW)
 fw = FritzWLAN(address='192.168.178.1', password=FritzPW)
 fh = FritzHosts(address='192.168.178.1', password=FritzPW)
 
+serial = i2c(port=1, address=0x3C)
+disp = ssd1306(serial)
+serial2 = i2c(port=0, address=0x3C)
+disp2 = ssd1306(serial2)
 width = disp.width
 height = disp.height
 
