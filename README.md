@@ -213,6 +213,32 @@ sudo reboot
 ```
 
 
+### Pi 2/3/4 Testfile:
+
+follow the installation steps above, until you finished step 3.
+
+After Step 3 continue with this:
+
+```
+sudo pip3 install fritzconnection
+
+git clone https://github.com/Maschine2501/PiHole-UI.git /home/pi/PiHole-UI
+
+cd PiHole-UI
+
+sudo cp dual-test.service /etc/systemd/user/
+
+sudo systemctl enable /etc/systemd/user/dual-test.service
+
+sudo systemctl start dual-test.service
+
+sudo reboot
+```
+
+
+
+
+
 ## If something is wrong:
 ---
 
