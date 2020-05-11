@@ -7,11 +7,7 @@ import psutil
 import requests
 import time
 
-#imports for Fritz.Box
-from fritzconnection.lib.fritzstatus import FritzStatus
-from fritzconnection.lib.fritzhosts import FritzHosts
-from fritzconnection.lib.fritzwlan import FritzWLAN
-from fritzconnection.lib.fritzcall import FritzCall
+
 
 #imports for Display
 from luma.core.sprite_system import framerate_regulator
@@ -20,11 +16,23 @@ from PIL import ImageDraw
 from PIL import ImageFont
 from PIL import ImageSequence
 from datetime import datetime
-from fritzconfig import FritzStatus, FritzHosts, FritzWLAN, FritzCall
+
+from fritzconnection.lib.fritzstatus import FritzStatus
+from fritzconnection.lib.fritzhosts import FritzHosts
+from fritzconnection.lib.fritzwlan import FritzWLAN
+from fritzconnection.lib.fritzcall import FritzCall
 
 interface = os.getenv('PIHOLE_OLED_INTERFACE', 'eth0')    #Network interface to retrieve the IP address
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')    #Mount point for disk usage info
 hostname = platform.node()
+
+FrzitzPW = 'password' 
+#Password of your Fritzbox
+
+fs = FritzStatus(address='192.168.178.1', password=FritzPW)
+fc = FritzCall(address='192.168.178.1', password=FritzPW)  
+fw = FritzWLAN(address='192.168.178.1', password=FritzPW)
+fh = FritzHosts(address='192.168.178.1', password=FritzPW)
 
 width = disp.width
 height = disp.height
@@ -116,8 +124,8 @@ def LS2():
 
 def RS1():
     #1st Fritzbox screen (uptime, up-/download)
-    fbuptime = fs.str_uptime
-    fbspeed = fs.str_max_bit_rate
+    fbuptime = FritzStatus.str_uptime
+    fbspeed = FritzStatus.str_max_bit_rate
     draw.text((0, 0), "Fritz.Box infos: ", font=datebold, fill=255)
     draw.line((0, 10, width, 10), fill=255)
     draw.text((0, 14), "Uptime: ", font=font, fill=255)
@@ -130,9 +138,9 @@ def RS1():
 
 def RS2():
     #2nd Fritzbox screen
-    #hosts = fh.host_numbers()
-    #ssid = fw.ssid
-    #missedcalls = fc.get_missed_calls(update=True, num=10, days=7)
+    #hosts = FritzHosts.host_numbers()
+    #ssid = FritzWLAN.ssid
+    #missedcalls = FritzCall.get_missed_calls(update=True, num=10, days=7)
     draw.text((0, 0), "Fritz.Box infos: ", font=font1, fill=255)
     draw.line((0, 10, width, 10), fill=255)
     draw.text((0, 14), "SSID: ", font=font3, fill=255)
