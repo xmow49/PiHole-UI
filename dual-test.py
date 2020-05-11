@@ -3,20 +3,8 @@
 import os, sys
 import time
 from multiprocessing import Process
-
-#imports for Display
-from luma.core.interface.serial import i2c
-from luma.oled.device import ssd1306
 from modules.display import*
 from modules.HostChecker import CheckIfUp
-
-serial = i2c(port=1, address=0x3C)
-disp = ssd1306(serial)
-serial2 = i2c(port=0, address=0x3C)
-disp2 = ssd1306(serial2)
-
-width = disp.width
-height = disp.height
 
 UPTag = ''
 dispcounter = 1
