@@ -53,8 +53,8 @@ def load_font(filename, font_size):
         font = ImageFont.load_default()
     return font
 
-font = load_font('PixelOperator.ttf', 10)
-font1 = load_font('PixelOperator.ttf', 12)
+font = load_font('Pixelate.ttf', 10)
+font1 = load_font('Pixelate.ttf', 12)
 font2 = load_font('PixelOperator.ttf', 10)
 font3 = load_font('PixelOperator.ttf', 10)
 font4 = load_font('PixelOperator.ttf', 10)
@@ -131,7 +131,7 @@ def RS1():
     #1st Fritzbox screen (uptime, up-/download)
     fbuptime = fs.str_uptime
     fbspeed = fs.str_max_bit_rate
-    draw.text((0, 0), "Fritz.Box infos: ", font=datebold, fill=255)
+    draw.text((0, 0), "Fritz.Box infos: ", font=font1, fill=255)
     draw.line((0, 10, width, 10), fill=255)
     draw.text((0, 14), "Uptime: ", font=font, fill=255)
     draw.text((64, 14), fbuptime, font=font, fill=255)
@@ -143,15 +143,15 @@ def RS1():
 
 def RS2():
     #2nd Fritzbox screen
-    #hosts = fh.host_numbers()
-    #ssid = fh.ssid
+    hosts = fh.host_numbers()
+    ssid = fh.ssid
     #missedcalls = FritzCall.get_missed_calls(update=True, num=10, days=7)
     draw.text((0, 0), "Fritz.Box infos: ", font=font1, fill=255)
     draw.line((0, 10, width, 10), fill=255)
-    draw.text((0, 14), "SSID: ", font=font3, fill=255)
-    draw.text((64, 14), "ssid", font=font2, fill=255)
-    draw.text((0,26), "Hosts: ", font=font3, fill=255)
-    draw.text((50,36), "hosts", font=font4, fill=255)
+    draw.text((0, 14), "SSID: ", font=font, fill=255)
+    draw.text((64, 14), ssid, font=font, fill=255)
+    draw.text((0,26), "Hosts: ", font=font, fill=255)
+    draw.text((50,36), hosts, font=font, fill=255)
     draw.text((0,46), "missed calls: ", font=font, fill=255)
     draw.text((50,56), "missedcalls", font=font, fill=255)
     disp2.display(image)
