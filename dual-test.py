@@ -19,9 +19,9 @@ while True:
             p7 = Process(target = CheckIfUp)
             p7.start()
             time.sleep(2.0)
-            f = open("./modules/UPTag.txt", "r")
+            f = open('/home/pi/PiHole-UI/modules/UPTag.txt', 'r')
             UPTag = f.read()
-            os.remove("./modules/UPTag.txt") 
+            os.remove('/home/pi/PiHole-UI/modules/UPTag.txt') 
             p7.kill()
             if UPTag == 1:
                p5.kill()
