@@ -53,6 +53,7 @@ def load_font(filename, font_size):
         font = ImageFont.load_default()
     return font
 
+font = load_font('PixelOperator.ttf', 10)
 font1 = load_font('PixelOperator.ttf', 12)
 font2 = load_font('PixelOperator.ttf', 10)
 font3 = load_font('PixelOperator.ttf', 10)
@@ -128,8 +129,8 @@ def LS2():
 
 def RS1():
     #1st Fritzbox screen (uptime, up-/download)
-    fbuptime = FritzStatus.str_uptime
-    fbspeed = FritzStatus.str_max_bit_rate
+    fbuptime = fs.str_uptime
+    fbspeed = fs.str_max_bit_rate
     draw.text((0, 0), "Fritz.Box infos: ", font=datebold, fill=255)
     draw.line((0, 10, width, 10), fill=255)
     draw.text((0, 14), "Uptime: ", font=font, fill=255)
@@ -142,8 +143,8 @@ def RS1():
 
 def RS2():
     #2nd Fritzbox screen
-    #hosts = FritzHosts.host_numbers()
-    #ssid = FritzWLAN.ssid
+    #hosts = fh.host_numbers()
+    #ssid = fh.ssid
     #missedcalls = FritzCall.get_missed_calls(update=True, num=10, days=7)
     draw.text((0, 0), "Fritz.Box infos: ", font=font1, fill=255)
     draw.line((0, 10, width, 10), fill=255)
