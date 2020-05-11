@@ -15,25 +15,32 @@ disp.clear()
 disp2.clear()
 
 while True:
-     if UPTag != '1' or loopcount == 100:
+     if UPTag != '1' or loopcount == 10:
             p7 = Process(target = CheckIfUp)
             p7.start()
-            time.sleep(2.0)
+            time.sleep(15.0)
             f = open('/home/pi/PiHole-UI/modules/UPTag.txt', 'r')
             UPTag = f.read()
-            os.remove('/home/pi/PiHole-UI/modules/UPTag.txt') 
-            p7.kill()
-            if UPTag == 1:
-               p5.kill()
-               p6.kill()
-            if UPTag != "1":
-               p5 = Process(target = LeftGif)
-               p6 = Process(target = RightGif)
-               p5.start()
-               p6.start()
-               time.sleep(30.0)
-            if loopcount == 100:
-              loopcount -= 99
+            os.remove('/home/pi/PiHole-UI/modules/UPTag.txt')
+            p7.terminate()
+            while UPTag != "1":
+              p5 = Process(target = LeftGif)
+              p6 = Process(target = RightGif)
+              p5.start()
+              p6.start()
+              time.sleep(30.0)
+              p7 = Process(target = CheckIfUp)
+              p7.start()
+              time.sleep(10.0)
+              f = open('/home/pi/PiHole-UI/modules/UPTag.txt', 'r')
+              UPTag = f.read()
+              os.remove('/home/pi/PiHole-UI/modules/UPTag.txt')
+              p5.terminate()
+              p6.terminate()
+              FirstStart = 1
+
+            if loopcount == 10:
+              loopcount -= 9
 
      if dispcounter == 1 and UPTag == '1':
             if FirstStart == 1:
@@ -60,17 +67,6 @@ while True:
             p1.kill()
             p2.kill()
             dispcounter += 1
-
- #    if dispcounter == 3 and UPTag == '1':
- #          print('4 Schleife nach start:', dispcounter, UPTag)
- #          p5 = Process(target = LeftGif)
- #          p6 = Process(target = RightGif)
- #          p5.start()
- #          p6.start()
- #          time.sleep(14.4)
- #          p5.kill()
- #          p6.kill()
- #          dispcounter += 1
 
      if dispcounter == 3 and UPTag == '1':
             print('5 Schleife nach start:', dispcounter, UPTag)
