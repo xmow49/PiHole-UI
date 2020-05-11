@@ -19,12 +19,19 @@ while True:
             p7 = Process(target = CheckIfUp)
             p7.start()
             time.sleep(2.0)
-            f = open("UPTag.txt", "r")
+            f = open("./modules/UPTag.txt", "r")
             UPTag = f.read()
-            os.remove("UPTag.txt") 
+            os.remove("./modules/UPTag.txt") 
             p7.kill()
+            if UPTag == 1:
+               p5.kill()
+               p6.kill()
             if UPTag != "1":
-              time.sleep(30.0)
+               p5 = Process(target = LeftGif)
+               p6 = Process(target = RightGif)
+               p5.start()
+               p6.start()
+               time.sleep(30.0)
             if loopcount == 100:
               loopcount -= 99
 
@@ -54,18 +61,18 @@ while True:
             p2.kill()
             dispcounter += 1
 
-     if dispcounter == 3 and UPTag == '1':
-           print('4 Schleife nach start:', dispcounter, UPTag)
-           p5 = Process(target = LeftGif)
-           p6 = Process(target = RightGif)
-           p5.start()
-           p6.start()
-           time.sleep(14.4)
-           p5.kill()
-           p6.kill()
-           dispcounter += 1
+ #    if dispcounter == 3 and UPTag == '1':
+ #          print('4 Schleife nach start:', dispcounter, UPTag)
+ #          p5 = Process(target = LeftGif)
+ #          p6 = Process(target = RightGif)
+ #          p5.start()
+ #          p6.start()
+ #          time.sleep(14.4)
+ #          p5.kill()
+ #          p6.kill()
+ #          dispcounter += 1
 
-     if dispcounter == 4 and UPTag == '1':
+     if dispcounter == 3 and UPTag == '1':
             print('5 Schleife nach start:', dispcounter, UPTag)
             p3 = Process(target = LS2)
             p4 = Process(target = RS2)
@@ -76,7 +83,7 @@ while True:
             p4.kill()
             dispcounter += 1
 
-     if dispcounter == 5 and UPTag == '1':
+     if dispcounter == 4 and UPTag == '1':
             print('6 Schleife nach start:', dispcounter, UPTag)
             p8 = Process(target = ClockDisplayL)
             p9 = Process(target = ClockDisplayR)
@@ -85,5 +92,5 @@ while True:
             time.sleep(5.0)
             p8.kill()
             p9.kill()
-            dispcounter -= 3
+            dispcounter -= 2
             loopcount += 1
