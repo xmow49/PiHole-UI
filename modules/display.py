@@ -7,8 +7,6 @@ import psutil
 import requests
 import time
 
-
-
 #imports for Display
 from luma.core.sprite_system import framerate_regulator
 from PIL import Image
