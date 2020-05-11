@@ -26,11 +26,11 @@ interface = os.getenv('PIHOLE_OLED_INTERFACE', 'eth0')    #Network interface to 
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')    #Mount point for disk usage info
 hostname = platform.node()
 
-FritzPW = 'password' 
+FritzPW = 'feud3033'
 #Password of your Fritzbox
 
 fs = FritzStatus(address='192.168.178.1', password=FritzPW)
-fc = FritzCall(address='192.168.178.1', password=FritzPW)  
+fc = FritzCall(address='192.168.178.1', password=FritzPW)
 fw = FritzWLAN(address='192.168.178.1', password=FritzPW)
 fh = FritzHosts(address='192.168.178.1', password=FritzPW)
 
@@ -53,14 +53,14 @@ def load_font(filename, font_size):
         font = ImageFont.load_default()
     return font
 
-font = load_font('Pixelate.ttf', 10)
+font = load_font('Pixelate.ttf', 12)
 font1 = load_font('Pixelate.ttf', 12)
-font2 = load_font('PixelOperator.ttf', 10)
+font2 = load_font('Pixelate.ttf', 10)
 font3 = load_font('PixelOperator.ttf', 10)
 font4 = load_font('PixelOperator.ttf', 10)
 font = load_font('PixelOperator.ttf', 10)
-clockbold = load_font('DSG.ttf', 30)
-datebold = load_font('DSG.ttf', 30)
+clockbold = load_font('DSG.ttf', 38)
+datebold = load_font('DSG.ttf', 20)
 
 def show_logoleft(filename, device):
     logoImage = Image.new('1', (device.width, device.height))
@@ -84,23 +84,24 @@ def show_logoright(filename, device):
 
 def ClockDisplayL():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
-    draw.text((4, 22), time.strftime("%H:%M:%S"), font=clockbold, fill=1)
+    draw.text((0, 13), time.strftime("%H:%M"), font=clockbold, fill=1)
     disp.display(image)
     time.sleep(-time.time() % 60)
 
 def ClockDisplayR():
     draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
-    draw.text((4, 22), time.strftime("%d-%m-%Y"), font=datebold, fill=1)
+    draw.text((0, 13), 'Datum: ', font=font1, fill=1)
+    draw.text((0, 31), time.strftime("%d.%m.%Y"), font=datebold, fill=1)
     disp2.display(image)
     time.sleep(-time.time() % 60)
 
 def LS1():
    #1st Screen CPU/RAM/Uptime..
    addr = psutil.net_if_addrs()[interface][0]
-   draw.text((0, 0), "Pi-hole %s" % addr.address.rjust(15), font=font, fill=255)
+   draw.text((0, 0), "Pi-hole %s" % addr.address.rjust(15), font=font2, fill=255)
    uptime = datetime.now() - datetime.fromtimestamp(psutil.boot_time())
-   draw.text((0, 12), "Up: %s" % humanize.naturaltime(uptime), font=font, fill=255)
-   draw.text((0, 22), "    %.1f %.1f %.1f" % os.getloadavg(), font=font, fill=255)
+   draw.text((0, 12), "Up: %s" % humanize.naturaltime(uptime), font=font2, fill=255)
+   draw.text((0, 22), "    %.1f %.1f %.1f" % os.getloadavg(), font=font2, fill=255)
    cpu = int(psutil.cpu_percent(percpu=False))
    draw.text((0, 34), "CPU", font=font, fill=255)
    draw.rectangle((26, 34, 126, 34 + 6), outline=255, fill=0)
@@ -119,42 +120,43 @@ def LS2():
    #2nd Screen PiHole Infos...
    req = requests.get('http://pi.hole/admin/api.php')
    data = req.json()
-   draw.text((0, 0), "Pi-hole (%s)" % data["status"], font=font, fill=255)
+   draw.text((0, 0), "Pi-hole (%s)" % data["status"], font=font2, fill=255)
    draw.line((0, 12, width, 12), fill=255)
-   draw.text((0, 22), "Blocked: %d (%d%%)" % (data["ads_blocked_today"], data["ads_percentage_today"]), font=font, fill=255)
-   draw.text((0, 32), "Queries: %d" % data["dns_queries_today"], font=font, fill=255)
+   draw.text((0, 22), "Blocked: %d (%d%%)" % (data["ads_blocked_today"], data["ads_percentage_today"]), font=font2, fill=255)
+   draw.text((0, 32), "Queries: %d" % data["dns_queries_today"], font=font2, fill=255)
    draw.line((0, 50, width, 50), fill=255)
-   draw.text((0, 54), "Blocklist: %d" % data["domains_being_blocked"], font=font, fill=255)
+   draw.text((0, 54), "Blocklist: %d" % data["domains_being_blocked"], font=font2, fill=255)
    disp.display(image)
 
 def RS1():
     #1st Fritzbox screen (uptime, up-/download)
     fbuptime = fs.str_uptime
     fbspeed = fs.str_max_bit_rate
-    draw.text((0, 0), "Fritz.Box infos: ", font=font1, fill=255)
+    draw.text((0, 0), "Fritz.Box infos: ", font=font2, fill=255)
     draw.line((0, 10, width, 10), fill=255)
-    draw.text((0, 14), "Uptime: ", font=font, fill=255)
-    draw.text((64, 14), fbuptime, font=font, fill=255)
-    draw.text((0,26), "Upload-Speed: ", font=font, fill=255)
-    draw.text((50,36), fbspeed[0], font=font, fill=255)
-    draw.text((0,46), "Download-Speed: ", font=font, fill=255)
-    draw.text((50,56), fbspeed[1], font=font, fill=255)
+    draw.text((0, 14), "Uptime: ", font=font2, fill=255)
+    draw.text((64, 14), fbuptime, font=font2, fill=255)
+    draw.text((0,26), "Upload-Speed: ", font=font2, fill=255)
+    draw.text((50,36), fbspeed[0], font=font2, fill=255)
+    draw.text((0,46), "Download-Speed: ", font=font2, fill=255)
+    draw.text((50,56), fbspeed[1], font=font2, fill=255)
     disp2.display(image)
 
 def RS2():
     #2nd Fritzbox screen
-    hosts = fh.host_numbers()
-    ssid = fh.ssid
+    hosts = fh.host_numbers
+    ssid = fw.ssid
     #missedcalls = FritzCall.get_missed_calls(update=True, num=10, days=7)
-    draw.text((0, 0), "Fritz.Box infos: ", font=font1, fill=255)
+    draw.text((0, 0), "Fritz.Box infos: ", font=font2, fill=255)
     draw.line((0, 10, width, 10), fill=255)
-    draw.text((0, 14), "SSID: ", font=font, fill=255)
-    draw.text((64, 14), ssid, font=font, fill=255)
-    draw.text((0,26), "Hosts: ", font=font, fill=255)
-    draw.text((50,36), hosts, font=font, fill=255)
-    draw.text((0,46), "missed calls: ", font=font, fill=255)
-    draw.text((50,56), "missedcalls", font=font, fill=255)
+    draw.text((0, 14), "SSID: ", font=font2, fill=255)
+    draw.text((64, 14), ssid, font=font2, fill=255)
+    draw.text((0,26), "Hosts: ", font=font2, fill=255)
+    draw.text((50,36), str(hosts), font=font2, fill=255)
+    draw.text((0,46), "missed calls: ", font=font2, fill=255)
+    draw.text((50,56), "missedcalls", font=font2, fill=255)
     disp2.display(image)
+
 
 def LeftLogo():
    show_logoleft("Pi-.bmp", disp)
@@ -190,3 +192,5 @@ def RightGif():
                  background = Image.new("RGB", disp.size, "white")
                  background.paste(frame.resize(size, resample=Image.LANCZOS), posn)
                  disp2.display(background.convert("1"))
+
+
