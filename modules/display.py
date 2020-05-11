@@ -164,7 +164,7 @@ def RightLogo():
 def LeftGif():
     #Gifscreen for left display
     regulator = framerate_regulator(fps=10)
-    left_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', '04L.gif'))
+    left_path = '/home/pi/PiHole-UI/res/04L.gif'
     left = Image.open(left_path)
     size = [128, 64]
     posn = (0, 0)
@@ -178,7 +178,7 @@ def LeftGif():
 def RightGif():
         #Gifscreen for right display
     regulator2 = framerate_regulator(fps=10)
-    right_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'res', '04R.gif'))
+    right_path = '/home/pi/PiHole-UI/res/04R.gif'
     right = Image.open(right_path)
     size = [128, 64]
     posn = (0, 0)
