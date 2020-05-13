@@ -64,29 +64,29 @@ while True:
        p7.terminate()
        if UPTag == "1":
          FirstStart = 1
-         if picpu <= 33
+         if picpu < 33
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDoff()
            StatusLED.CPU100LEDoff()
-         if picpu >= 33 or picpu <= 66:
+         if picpu > 33 or picpu < 66:
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDon()
            StatusLED.CPU100LEDoff()
-         if picpu >= 66:
+         if picpu > 66:
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDon()
            StatusLED.CPU100LEDon()      
        if loopcount == 10:
          loopcount -= 9
-         if picpu <= 33
+         if picpu < 33
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDoff()
            StatusLED.CPU100LEDoff()
-         if picpu >= 33 or picpu <= 66:
+         if picpu > 33 or picpu < 66:
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDon()
            StatusLED.CPU100LEDoff()
-         if picpu >= 66:
+         if picpu > 66:
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDon()
            StatusLED.CPU100LEDon()      
@@ -107,19 +107,19 @@ while True:
        p12.terminate()
        p10.terminate()
        p11.terminate()
-       if picpu <= 33
+       if picpu < 33
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDoff()
           StatusLED.CPU100LEDoff()
           if Firstart != 1:
             FirstStart = 1
-       if picpu >= 33 or picpu <= 66:
+       if picpu > 33 or picpu < 66:
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDon()
           StatusLED.CPU100LEDoff()
           if Firstart != 1:
             FirstStart = 1
-       if picpu >= 66:
+       if picpu > 66:
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDon()
           StatusLED.CPU100LEDon()      
@@ -139,29 +139,29 @@ while True:
          p6.terminate()
          dispcounter += 1
          FirstStart -= 1
-         if picpu <= 33
+         if picpu < 33
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDoff()
            StatusLED.CPU100LEDoff()
-         if picpu >= 33 or picpu <= 66:
+         if picpu > 33 or picpu < 66:
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDon()
            StatusLED.CPU100LEDoff()
-         if picpu >= 66:
+         if picpu > 66:
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDon()
            StatusLED.CPU100LEDon()      
        else:
          dispcounter = 2
-         if picpu <= 33
+         if picpu < 33
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDoff()
            StatusLED.CPU100LEDoff()
-         if picpu >= 33 or picpu <= 66:
+         if picpu > 33 or picpu < 66:
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDon()
            StatusLED.CPU100LEDoff()
-         if picpu >= 66:
+         if picpu > 66:
            StatusLED.CPU33LEDon()
            StatusLED.CPU66EDon()
            StatusLED.CPU100LEDon()          
@@ -177,15 +177,15 @@ while True:
        p1.terminate()
        p2.terminate()
        dispcounter += 1
-       if picpu <= 33
+       if picpu < 33
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDoff()
           StatusLED.CPU100LEDoff()
-       if picpu >= 33 or picpu <= 66:
+       if picpu > 33 or picpu < 66:
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDon()
           StatusLED.CPU100LEDoff()
-       if picpu >= 66:
+       if picpu > 66:
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDon()
           StatusLED.CPU100LEDon()                
@@ -201,15 +201,15 @@ while True:
        p3.terminate()
        p4.terminate()
        dispcounter += 1
-       if picpu <= 33
+       if picpu < 33
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDoff()
           StatusLED.CPU100LEDoff()
-       if picpu >= 33 or picpu <= 66:
+       if picpu > 33 or picpu < 66:
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDon()
           StatusLED.CPU100LEDoff()
-       if picpu >= 66:
+       if picpu > 66:
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDon()
           StatusLED.CPU100LEDon()      
@@ -226,15 +226,15 @@ while True:
        p9.terminate()
        dispcounter -= 2
        loopcount += 1
-       if picpu <= 33
+       if picpu < 33
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDoff()
           StatusLED.CPU100LEDoff()
-       if picpu >= 33 or picpu <= 66:
+       if picpu > 33 or picpu < 66:
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDon()
           StatusLED.CPU100LEDoff()
-       if picpu >= 66:
+       if picpu > 66:
           StatusLED.CPU33LEDon()
           StatusLED.CPU66EDon()
           StatusLED.CPU100LEDon()          
