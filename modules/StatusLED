@@ -2,6 +2,7 @@
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 GPIO.setup(18, GPIO.OUT)  #physical Pin-Nr.12 -> Indicator for Pi is On
 GPIO.setup(17, GPIO.OUT)  #physical Pin-Nr.11 -> Indicator for CPU Usage under 33%
