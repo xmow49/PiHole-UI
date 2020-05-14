@@ -2,13 +2,11 @@
 
 import os, sys
 import time
-
 import os, sys
 import platform
 import humanize
 import psutil
 import requests
-import RPi.GPIO as GPIO
 
 from multiprocessing import Process
 from fritzconnection.lib.fritzstatus import FritzStatus
@@ -16,30 +14,29 @@ from modules.display import*
 from modules.HostChecker import*
 from modules.StatusLED import*
 
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-
-GPIO.setup(18, GPIO.OUT)  #physical Pin-Nr.12 -> Indicator for Pi is On
-GPIO.output(18, GPIO.HIGH)
-
+SystemIP = '192.168.178.27'
+#192.168.178.27 is a sample, use any adress you wish.
 piface = os.getenv('PIHOLE_OLED_INTERFACE', 'eth0') 
 
 FritzPW = 'password'
 #Password of your Fritzbox
 fstatus = FritzStatus(address='192.168.178.1', password=FritzPW)
 
+SysStart()
+
 UPTag = ''
 dispcounter = 1
 FirstStart = 1
 loopcount = 0
 
-PiON = 1
+BGCheck1 = Process(target = CheckIfUP)
+BGCheck2 = Process(target = PiHoleUp)
+BGCheck3 = Process(target = FBconnected)
+BGCheck1.start(SystemIP)
+BGCheck2.start()
+BGCheck3.start(FritzPW)
 
-FBon = FON
-CPU33 = ''
-CPU66 = ''
-CPU100 = ''
+ProcessorLED()
 
 disp.clear()
 disp2.clear()
