@@ -14,7 +14,7 @@ GPIO.setup(6, GPIO.OUT)   #physical Pin-Nr.35 -> Indicator for PiHole Service Ru
 GPIO.setup(13, GPIO.OUT)  #physical Pin-Nr.37 -> Indicator for Host (HostChecker.py) online
 GPIO.setup(18, GPIO.OUT)  #physical Pin-Nr.12 -> Indicator for Pi is On
 
-CPUcheck = 1
+CPUCheck = 1
 
 def SysStart():
     GPIO.output(5, GPIO.LOW)
