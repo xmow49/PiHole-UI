@@ -64,32 +64,8 @@ while True:
        p7.terminate()
        if UPTag == "1":
          FirstStart = 1
-         if picpu < 33:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDoff()
-           StatusLED.CPU100LEDoff()
-         if picpu > 33 or picpu < 66:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDon()
-           StatusLED.CPU100LEDoff()
-         if picpu > 66:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDon()
-           StatusLED.CPU100LEDon()      
        if loopcount == 10:
          loopcount -= 9
-         if picpu < 33:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDoff()
-           StatusLED.CPU100LEDoff()
-         if picpu > 33 or picpu < 66:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDon()
-           StatusLED.CPU100LEDoff()
-         if picpu > 66:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDon()
-           StatusLED.CPU100LEDon()      
     
      if UPTag != "1":
        p10 = Process(target = LeftGif)
@@ -102,29 +78,11 @@ while True:
        time.sleep(10.0)
        f = open('/home/pi/PiHole-UI/modules/UPTag.txt', 'r')
        UPTag = f.read()
-       picpu = int(psutil.cpu_percent(percpu=False))
-#      os.remove('/home/pi/PiHole-UI/modules/UPTag.txt')
        p12.terminate()
        p10.terminate()
        p11.terminate()
-       if picpu < 33:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDoff()
-          StatusLED.CPU100LEDoff()
-          if Firstart != 1:
-            FirstStart = 1
-       if picpu > 33 or picpu < 66:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDon()
-          StatusLED.CPU100LEDoff()
-          if Firstart != 1:
-            FirstStart = 1
-       if picpu > 66:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDon()
-          StatusLED.CPU100LEDon()      
-          if Firstart != 1:
-            FirstStart = 1
+       if Firstart != 1:
+          FirstStart = 1
 
      if dispcounter == 1 and UPTag == '1':
        if FirstStart == 1:
@@ -134,37 +92,12 @@ while True:
          p5.start()
          p6.start()
          time.sleep(5.0)
-         picpu = int(psutil.cpu_percent(percpu=False))
          p5.terminate()
          p6.terminate()
          dispcounter += 1
          FirstStart -= 1
-         if picpu < 33:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDoff()
-           StatusLED.CPU100LEDoff()
-         if picpu > 33 or picpu < 66:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDon()
-           StatusLED.CPU100LEDoff()
-         if picpu > 66:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDon()
-           StatusLED.CPU100LEDon()      
        else:
          dispcounter = 2
-         if picpu < 33:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDoff()
-           StatusLED.CPU100LEDoff()
-         if picpu > 33 or picpu < 66:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDon()
-           StatusLED.CPU100LEDoff()
-         if picpu > 66:
-           StatusLED.CPU33LEDon()
-           StatusLED.CPU66EDon()
-           StatusLED.CPU100LEDon()          
 
      if dispcounter == 2 and UPTag == '1':
        print('3 Schleife nach start:', dispcounter, UPTag)
@@ -173,22 +106,9 @@ while True:
        p1.start()
        p2.start()
        time.sleep(8.0)
-       picpu = int(psutil.cpu_percent(percpu=False))
        p1.terminate()
        p2.terminate()
        dispcounter += 1
-       if picpu < 33:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDoff()
-          StatusLED.CPU100LEDoff()
-       if picpu > 33 or picpu < 66:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDon()
-          StatusLED.CPU100LEDoff()
-       if picpu > 66:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDon()
-          StatusLED.CPU100LEDon()                
 
      if dispcounter == 3 and UPTag == '1':
        print('5 Schleife nach start:', dispcounter, UPTag)
@@ -197,22 +117,9 @@ while True:
        p3.start()
        p4.start()
        time.sleep(8.0)
-       picpu = int(psutil.cpu_percent(percpu=False))
        p3.terminate()
        p4.terminate()
        dispcounter += 1
-       if picpu < 33:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDoff()
-          StatusLED.CPU100LEDoff()
-       if picpu > 33 or picpu < 66:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDon()
-          StatusLED.CPU100LEDoff()
-       if picpu > 66:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDon()
-          StatusLED.CPU100LEDon()      
      
      if dispcounter == 4 and UPTag == '1':
        print('6 Schleife nach start:', dispcounter, UPTag)
@@ -221,20 +128,7 @@ while True:
        p8.start()
        p9.start()
        time.sleep(5.0)
-       picpu = int(psutil.cpu_percent(percpu=False))
        p8.terminate()
        p9.terminate()
        dispcounter -= 2
        loopcount += 1
-       if picpu < 33:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDoff()
-          StatusLED.CPU100LEDoff()
-       if picpu > 33 or picpu < 66:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDon()
-          StatusLED.CPU100LEDoff()
-       if picpu > 66:
-          StatusLED.CPU33LEDon()
-          StatusLED.CPU66EDon()
-          StatusLED.CPU100LEDon()          
