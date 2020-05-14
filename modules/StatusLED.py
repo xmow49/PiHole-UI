@@ -1,5 +1,7 @@
 #!/usr/bin//python3
 import RPi.GPIO as GPIO
+import psutil
+import time
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -10,15 +12,29 @@ GPIO.setup(22, GPIO.OUT)  #physical Pin-Nr.15 -> Indicator for CPU Usage above 6
 GPIO.setup(5, GPIO.OUT)   #physical Pin-Nr.33 -> Indicator for Fritzbox Online
 GPIO.setup(6, GPIO.OUT)   #physical Pin-Nr.35 -> Indicator for PiHole Service Running
 GPIO.setup(13, GPIO.OUT)  #physical Pin-Nr.37 -> Indicator for Host (HostChecker.py) online
-    
-def CPU33LEDon():
-    GPIO.output(17, GPIO.HIGH)
-    
-def CPU66LEDon():
-    GPIO.output(27, GPIO.HIGH)
-    
-def CPU100LEDon():
-    GPIO.output(22, GPIO.HIGH)
+
+CPUcheck = 1
+
+def ProcessorLED():
+    while CPUCheck == 1:
+        picpu = int(psutil.cpu_percent(percpu=False))
+        time.sleep(0.5)
+        if picpu < 5:
+            GPIO.setup(17, GPIO.LOW)
+            GPIO.setup(27, GPIO.LOW)
+            GPIO.setup(22, GPIO.LOW)
+        if picpu < 33 and picpu > 5:
+            GPIO.setup(17, GPIO.HIGH)
+            GPIO.setup(27, GPIO.LOW)
+            GPIO.setup(22, GPIO.LOW)
+        if picpu > 33 or picpu < 66:
+            GPIO.setup(17, GPIO.HIGH)
+            GPIO.setup(27, GPIO.LOW)
+            GPIO.setup(22, GPIO.LOW)
+        if picpu > 66:
+            GPIO.setup(17, GPIO.HIGH)
+            GPIO.setup(27, GPIO.HIGH)
+            GPIO.setup(22, GPIO.HIGH)      
     
 def FritzOnlineLEDon():
     GPIO.output(5, GPIO.HIGH)
@@ -28,15 +44,6 @@ def PiHoleLEDon():
     
 def HostLEDon():
     GPIO.output(13, GPIO.HIGH)  
- 
-def CPU33LEDoff():
-    GPIO.output(17, GPIO.LOW)
-    
-def CPU66LEDoff():
-    GPIO.output(27, GPIO.LOW)
-    
-def CPU100LEDoff():
-    GPIO.output(22, GPIO.LOW)
     
 def FritzOnlineLEDoff():
     GPIO.output(5, GPIO.LOW)
