@@ -25,7 +25,7 @@ FirstStart = 1
 Processor = threading.Thread(target=ProcessorLED, daemon=True)
 BGCheck1 = threading.Thread(target=CheckIfUp, args=(SystemIP,), daemon=True)
 BGCheck2 = threading.Thread(target=PiHoleUp, daemon=True)
-BGCheck3 = threading.Thread(target=FBconnected args=(FritzPW,), daemon=True)
+BGCheck3 = threading.Thread(target=FBconnected, args=(FritzPW,), daemon=True)
 
 Processor.start()
 BGCheck1.start()
