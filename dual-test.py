@@ -94,3 +94,5 @@ while True:
        p8.terminate()
        p9.terminate()
        dispcounter -= 2
+       f = open('/home/pi/PiHole-UI/modules/UPTag.txt', 'r')
+       UPTag = f.read()
