@@ -22,7 +22,7 @@ dispcounter = 1
 FirstStart = 1
 
 Processor = Process(target = ProcessorLED)
-BGCheck1 = Process(target = CheckIfUP)
+BGCheck1 = Process(target = CheckIfUp)
 BGCheck2 = Process(target = PiHoleUp)
 BGCheck3 = Process(target = FBconnected)
 
@@ -36,6 +36,7 @@ disp2.clear()
 
 while True:
      if UPTag != "1":
+       print('If Uptag!=1')
        p10 = Process(target = LeftGif)
        p11 = Process(target = RightGif)
        p10.start()
@@ -48,7 +49,7 @@ while True:
        if Firstart != 1:
           FirstStart = 1
 
-     if dispcounter == 1 and UPTag == '1':
+     if FirstStart == 1 and UPTag == '1':
         print('2 Schleife nach start:', dispcounter, UPTag)
         p5 = Process(target = LeftLogo)
         p6 = Process(target = RightLogo)
