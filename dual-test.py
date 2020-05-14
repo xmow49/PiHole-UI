@@ -47,7 +47,7 @@ while True:
        UPTag = f.read()
        p10.terminate()
        p11.terminate()
-       if Firstart != 1:
+       if FirstStart != 1:
           FirstStart = 1
 
      if FirstStart == 1 and UPTag == '1':
