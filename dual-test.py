@@ -16,6 +16,7 @@ FritzPW = 'password'
 #Password of your Fritzbox
 
 SysStart()
+time.sleep(5.0)
 
 UPTag = ''
 dispcounter = 1
