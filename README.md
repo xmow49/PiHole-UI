@@ -222,6 +222,8 @@ After Step 3 continue with this:
 ```
 sudo pip3 install fritzconnection
 
+sudo pip3 install gpiozero
+
 git clone https://github.com/Maschine2501/PiHole-UI.git /home/pi/PiHole-UI
 
 cd PiHole-UI
