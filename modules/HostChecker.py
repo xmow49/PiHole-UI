@@ -8,9 +8,7 @@ from modules.StatusLED import*
 #the script will ping for it, if it's online -> Display on ->if not -> Display off
 PiHoleIP = 'http://192.168.178.58/admin/api.php'
 
-pwr1 = open('/home/pi/PiHole-UI/modules/PW.txt', 'r')
-FritzPW = pwr1.read()
-pwr1.close()
+FritzPW = ''
 
 LoopTAG = 1
 
