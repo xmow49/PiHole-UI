@@ -38,7 +38,7 @@ def SysStart():
     GPIO.setup(27, GPIO.HIGH)
     time.sleep(0.5)
     GPIO.setup(22, GPIO.HIGH)
-    time.sleep(1.)
+    time.sleep(1.0)
     GPIO.setup(22, GPIO.LOW)
     GPIO.setup(13, GPIO.LOW)
     time.sleep(0.5)
