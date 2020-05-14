@@ -14,6 +14,9 @@ SystemIP = '192.168.178.27'
 
 FritzPW = 'password'
 #Password of your Fritzbox
+pw = open("/home/pi/PiHole-UI/modules/PW.txt", "w")
+pw.write(str(FritzPW))
+pw.close()
 
 SysStart()
 time.sleep(5.0)
