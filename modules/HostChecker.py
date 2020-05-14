@@ -44,7 +44,7 @@ def PiHoleUp():
            PiHoleLEDoff()
            time.sleep(60.0)
       
-def FBconnected(FritzPW):
+def FBconnected():
     while LoopTAG == 1:
         fstatus = FritzStatus(address='192.168.178.1', password=FritzPW)
         FON = fstatus.is_linked
