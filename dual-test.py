@@ -93,4 +93,4 @@ while True:
        time.sleep(5.0)
        p8.terminate()
        p9.terminate()
-       dispcounter -= 3
+       dispcounter -= 2
