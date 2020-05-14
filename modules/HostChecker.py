@@ -12,34 +12,44 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(6, GPIO.OUT)   #physical Pin-Nr.35 -> Indicator for PiHole Service Running
 
+LoopTAG = 1
+
 
 def CheckIfUp(SystemIP):
-    UPTag = ''
-    response = os.system("ping -c 1 " + SystemIP)
-    print('System-Ping: ', response)    
-    if response == 0:
-        f = open("/home/pi/PiHole-UI/modules/UPTag.txt", "w")
-        f.write(str(UPTag))
-        f.close()
-    else:
-        f = open("/home/pi/PiHole-UI/modules/UPTag.txt", "w")
-        f.write(str(UPTag))
-        f.close()
+    while LoopTAG == 1:
+        UPTag = ''
+        response = os.system("ping -c 1 " + SystemIP)
+        print('System-Ping: ', response)    
+        if response == 0:
+           f = open("/home/pi/PiHole-UI/modules/UPTag.txt", "w")
+           f.write(str(UPTag))
+           f.close()
+           time.sleep(30.0)
+        else:
+           f = open("/home/pi/PiHole-UI/modules/UPTag.txt", "w")
+           f.write(str(UPTag))
+           f.close()
+           time.sleep(30.0)
 
 def PiHoleUp():
-    response = requests.head(PiHoleIP)
-    statuscode = response.status_code
-    print('PI-Ping: ', response, 'statuscode: ', statuscode)
-    if statuscode == 200:
-        GPIO.output(6, GPIO.HIGH)
-    else:
-        GPIO.output(6, GPIO.LOW)
+    while LoopTAG == 1:
+        response = requests.head(PiHoleIP)
+        statuscode = response.status_code
+        print('PI-Ping: ', response, 'statuscode: ', statuscode)
+        if statuscode == 200:
+           GPIO.output(6, GPIO.HIGH)
+           time.sleep(60.0)
+        else:
+           GPIO.output(6, GPIO.LOW)
+           time.sleep(60.0)
       
 def FBconnected(FritzPW):
-    fstatus = FritzStatus(address='192.168.178.1', password=FritzPW)
-    FON = fstatus.is_linked
-    tim
-    if FON == True:
-       FritzOnlineLEDon()
-    if FON == False:
-       FritzOnlineLEDoff()
+    while LoopTAG == 1:
+        fstatus = FritzStatus(address='192.168.178.1', password=FritzPW)
+        FON = fstatus.is_linked
+        if FON == True:
+           FritzOnlineLEDon()
+           time.sleep(60.0)
+        if FON == False:
+           FritzOnlineLEDoff()
+           time.sleep(60.0)
