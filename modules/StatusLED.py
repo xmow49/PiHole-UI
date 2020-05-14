@@ -56,18 +56,22 @@ def ProcessorLED():
             GPIO.setup(17, GPIO.LOW)
             GPIO.setup(27, GPIO.LOW)
             GPIO.setup(22, GPIO.LOW)
+            time.sleep(0.5)
         if picpu < 33 and picpu > 5:
             GPIO.setup(17, GPIO.HIGH)
             GPIO.setup(27, GPIO.LOW)
             GPIO.setup(22, GPIO.LOW)
+            time.sleep(0.5)
         if picpu > 33 or picpu < 66:
             GPIO.setup(17, GPIO.HIGH)
             GPIO.setup(27, GPIO.LOW)
             GPIO.setup(22, GPIO.LOW)
+            time.sleep(0.5)
         if picpu > 66:
             GPIO.setup(17, GPIO.HIGH)
             GPIO.setup(27, GPIO.HIGH)
-            GPIO.setup(22, GPIO.HIGH)      
+            GPIO.setup(22, GPIO.HIGH)
+            time.sleep(0.5)
     
 def FritzOnlineLEDon():
     GPIO.output(5, GPIO.HIGH)
