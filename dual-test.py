@@ -2,7 +2,7 @@
 
 import os, sys
 import time
-import os, sys
+import threading
 
 from multiprocessing import Process
 from modules.display import*
@@ -21,15 +21,15 @@ UPTag = ''
 dispcounter = 1
 FirstStart = 1
 
-Processor = Process(target = ProcessorLED)
-BGCheck1 = Process(target = CheckIfUp)
-BGCheck2 = Process(target = PiHoleUp)
-BGCheck3 = Process(target = FBconnected)
+Processor = threading.Thread(target=ProcessorLED, daemon=True)
+BGCheck1 = threading.Thread(target=CheckIfUp, args=(SystemIP,), daemon=True)
+BGCheck2 = threading.Thread(target=PiHoleUp, daemon=True)
+BGCheck3 = threading.Thread(target=FBconnected args=(FritzPW,), daemon=True)
 
 Processor.start()
-BGCheck1.start(SystemIP)
+BGCheck1.start()
 BGCheck2.start()
-BGCheck3.start(FritzPW)
+BGCheck3.start()
 
 disp.clear()
 disp2.clear()
