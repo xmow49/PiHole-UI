@@ -26,8 +26,9 @@ interface = os.getenv('PIHOLE_OLED_INTERFACE', 'eth0')    #Network interface to 
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')    #Mount point for disk usage info
 hostname = platform.node()
 
-FritzPW = 'password'
-#Password of your Fritzbox
+pwr = open('/home/pi/PiHole-UI/modules/PW.txt', 'r')
+FritzPW = pwr.read()
+pwr.close()
 
 fs = FritzStatus(address='192.168.178.1', password=FritzPW)
 fc = FritzCall(address='192.168.178.1', password=FritzPW)
