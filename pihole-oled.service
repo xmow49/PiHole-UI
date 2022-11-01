@@ -4,11 +4,11 @@ Requires=network.target
 
 [Service]
 Type=simple
-User=pi
+User=dorian
 Group=sudo
 
-WorkingDirectory=/home/pi/PiHole-UI
-ExecStart=/usr/bin/python3 -u /home/pi/PiHole-UI/main.py
+WorkingDirectory=/home/dorian/PiHole-UI
+ExecStart=/usr/bin/python3 -u /home/dorian/PiHole-UI/main.py
 
 Restart=always
 
