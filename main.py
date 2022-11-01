@@ -18,7 +18,7 @@ from datetime import datetime
 # Config
 
 # Network interface to retrieve the IP address
-interface = os.getenv('PIHOLE_OLED_INTERFACE', 'wlan0')
+interface = os.getenv('PIHOLE_OLED_INTERFACE', 'eth0')
 # Mount point for disk usage info
 mount_point = os.getenv('PIHOLE_OLED_MOUNT_POINT', '/')
 # There is no reset pin on the SSD1306 0.96"
@@ -49,7 +49,7 @@ if is_noop:
 else:
     image = Image.new('1', (width, height))
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype('./SF_Pixelate.ttf', 10)
+    font = ImageFont.truetype('./fonts/Pixelate.ttf', 10)
 
 sleep = 1  # seconds
 
@@ -75,7 +75,7 @@ try:
             uptime = datetime.now() - datetime.fromtimestamp(
                 psutil.boot_time()
             )
-            
+
             draw.text(
                 (0, 12),
                 "Up: %s" % humanize.naturaltime(uptime),
@@ -97,7 +97,7 @@ try:
                 outline=255,
                 fill=0
             )
-            
+
             draw.rectangle(
                (26, 34, 26 + cpu, 34 + 6),
                 outline=255,
@@ -111,7 +111,7 @@ try:
                 outline=255,
                 fill=0
             )
-            
+
             draw.rectangle(
                 (26, 44, 26 + cpu, 44 + 6),
                 outline=255,
@@ -125,13 +125,13 @@ try:
                 outline=255,
                 fill=0
             )
-            
+
             draw.rectangle(
                 (26, 54, 26 + disk, 54 + 6),
                 outline=255,
                 fill=255
             )
-            
+
         else:
             try:
                 req = requests.get('http://pi.hole/admin/api.php')
@@ -155,7 +155,7 @@ try:
                     font=font,
                     fill=255
                 )
-                
+
                 draw.text(
                     (0, 32),
                     "Queries: %d" % data["dns_queries_today"],
@@ -171,7 +171,7 @@ try:
                     font=font,
                     fill=255
                 )
-                
+
             except:  ## noqa
                 draw.text(
                     (0, 0),
@@ -186,4 +186,3 @@ try:
         elapsed_seconds += 1
 except (KeyboardInterrupt, SystemExit):
     print("Exiting...")
-
